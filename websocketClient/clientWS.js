@@ -2,7 +2,7 @@ function initWebSocket()
 {
 	return new Promise(function (resolve, reject)
 	{
-		var ws = new WebSocket('wss://3.85.232.128:5150'); //need to use wss when i upgrade to https. plz dont abuse 0_0!!!
+		var ws = new WebSocket('wss://3.85.232.128:5150'); //need to use wss when i upgrade to https. plz dont abuse 0_0!!!!!
 		// var ws = new WebSocket('ws://localhost:5150'); //for testing locally (these 2 lines are the only ones i need to change)
 		ws.onopen = () =>
 		{
