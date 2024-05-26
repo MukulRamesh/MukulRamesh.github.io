@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="./get3styles.css">
+    <title>Word+Math</title>
+</head>
+
+<!-- eventually, this below comment will be the nav bar -->
+<!-- <div class="topnav">
+    <a class="active" href="#home">Home</a>
+    <a href="#news">News</a>
+    <a href="#contact">Contact</a>
+    <a href="#about">About</a>
+</div> -->
+
+<!-- hopefully below div doesnt cause problems -->
+<div id="tsparticles"></div>
+
+<div id="infoBar">
+
+    <div id="streakText">Streak: 0</div>
+
+
+    <div id="timer">00:00</div>
+
+
+    <div id="scoreText">Score: 0</div>
+
+</div>
+
+
+<div id="emojiText"> </div>
+
+<div id="slotParent">
+
+    <div id="slot0" class="answerSlot">
+        <div id="slot0text" class="answerSlotText"></div>
+    </div>
+
+</div>
+
+
+
+
+<div id="allAnswersContainer" tabindex="-1">
+
+    <!--
+        <div id="0answerContainer" class="singleAnswerContainer">
+            <div id="0answers" class="answers" > test1 </div>
+        </div>
+
+        <div id="1answerContainer" class="singleAnswerContainer">
+            <div id="1answers" class="answers" > test2 </div>
+        </div>
+
+        <div id="2answerContainer" class="singleAnswerContainer">
+            <div id="2answers" class="answers" > test3 </div>
+        </div>
+    -->
+
+</div>
+
+<!-- <div id="buttonContainer">
+    <button type="button" id="positionResetButton" class="gameButtons">Disorganized? Click To Bring The Words Back!</button>
+    <button type="button" id="getNewWordsButton" class="gameButtons">Stuck? Click To Get New Words!</button>
+    <button type="button" id="resetGameButton" class="gameButtons">Play Again!</button>
+</div> -->
+
+<!-- <button type="button" id="audioButton" class="gameButtons"> 123123</button> -->
+
+<div id="previousSolutionsContainer">
+    <table id="previousSolutionsTable">
+        <tr>
+            <th> → </th>
+            <th>Average</th>
+            <th> ← </th>
+        </tr>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/interactjs@1.10.21/dist/interact.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tone@14.7.77/build/Tone.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.0.6/tsparticles.bundle.min.js"></script>
+<script src="pointsAudio.js"></script>
+<script src="particle.js"></script>
+<script src="score.js"></script>
+<script src="timer.js"></script>
+<script src="slotTracker.js"></script>
+<script src="choicesInit.js"></script>
+<script src="choiceMade.js"></script>
+<script src="touchscreen.js"></script>
+<script src="keyboard.js"></script>
+<script src="interactTest.js"></script>
+<script src="drag.js"></script>
+<script src="clientWS.js"></script>
+<script src="get3helper.js"></script>
+<script src="progressTracker.js"></script>
+<script src="getWords.js"></script>
+<script src="colorIndicator.js"></script>
+<script src="buttonLogic.js"></script>
+
+<!--
+    <script src="../websocketClient/clientWS.js"></script>
+    <script src="../websocketClient/getWords.js"></script> -->
+
+
+
+
+
+<!-- <link href=" https://cdn.jsdelivr.net/npm/interactjs@1.10.21/dist/api/styles/jsdoc-default.min.css " rel="stylesheet"> -->
+
+</html>

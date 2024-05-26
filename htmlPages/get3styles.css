@@ -1,0 +1,155 @@
+#infoBar{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5%;
+}
+
+#streakText{
+  font-size: xx-large;
+}
+
+#timer{
+
+  font-size: xx-large;
+
+}
+
+#scoreText{
+  font-size: xx-large;
+}
+
+/* 'emojiText' refers to the element which is ✅ or ❌ after a correct or incorrect answer */
+#emojiText{
+  font-size: xx-large;
+  display: flex;
+  justify-content: center;
+
+  min-height: 50px;
+}
+
+/* 'slot' refers to where the user puts their words */
+#slotParent{
+  /* font-family: monospace; */
+  display: flex;
+  width: auto;
+  /* background-color: gray; */
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+
+  margin-bottom: 10%;
+}
+
+.answerSlot{
+  /* background-color: lightgray; */
+  height: fit-content;
+  width: fit-content;
+  padding: 10px;
+
+  justify-content: center;
+  align-items: center;
+
+  font-size: x-large;
+  font-weight: 600;
+
+  border: 3px dashed;
+
+  border-radius: 16px;
+  min-height: 30px;
+  aspect-ratio: 7 / 1;
+
+  z-index: 0;
+
+  display: grid;
+
+  transition: background-color 200ms cubic-bezier(1, 1, 1, 1);
+	transition-delay: 0s;
+}
+
+.answerSlotText
+{
+  margin: auto;
+  justify-self: center;
+}
+
+.slotBreak{
+  padding: 30px;
+}
+
+/* 'answers' refer to the words the user gets */
+#allAnswersContainer {
+  user-select: none;
+  -webkit-user-select: none;
+  /* height: 100%; */
+  display: none;
+  justify-content: center;
+  align-items: center; /* To align vertically, if needed */
+  /* background-color: antiquewhite; */
+  gap: 60px;
+}
+.singleAnswerContainer {
+  background-color: rgb(115, 115, 115);
+
+
+  padding: 10px;
+  border: 3px solid black;
+  border-radius:16px;
+  min-height: 30px;
+  aspect-ratio: 7 / 1;
+}
+.answers {
+  /* margin: auto; */
+  display: grid;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  z-index: 1; /*needs to be greater than z-index of answerSlot */
+  font-size: 20px;
+
+
+  padding: 15px; /* needs to be greater than  .answerSlot padding + border thickness */
+
+  border-radius:16px;
+  min-height: 30px;
+  aspect-ratio: 7 / 1;
+
+}
+
+
+#buttonContainer{
+  display: flex;
+  width: auto;
+  background-color: rgb(212, 212, 212);
+  justify-content: center;
+  align-items: center;
+
+}
+
+/* these are the buttons that reset the board, etc */
+.gameButtons{
+  display: flex;
+  justify-self: center;
+  align-items: center;
+}
+
+/* this refers to the table that tracks previous solutions */
+#previousSolutionsContainer{
+  background-color: rgb(255, 255, 255);
+  justify-content: center;
+  align-items: center; /* To align vertically, if needed */
+  display: flex;
+}
+
+#previousSolutionsTable{
+  /* TODO: make each column take up the same width */
+  text-align: center;
+  width: 75%;
+  display: none;
+  table-layout: fixed;
+}
+
+table, th, td {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: large;
+  border: 2px solid black;
+  padding: 2px;
+}

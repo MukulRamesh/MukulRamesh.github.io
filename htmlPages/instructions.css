@@ -1,0 +1,13 @@
+body{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header{
+    font-size: xx-large;
+    text-align: center;
+}
+div{
+    align-self: center;
+    text-align: center;
+    font-size: large;
+}
