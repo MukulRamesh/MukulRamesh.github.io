@@ -2,8 +2,8 @@ function initWebSocket()
 {
 	return new Promise(function (resolve, reject)
 	{
-		// var ws = new WebSocket('wss://websocket-wordvector-5a3259379d3b.herokuapp.com/'); //need to use wss when i upgrade to https. plz dont abuse 0_0!!!!!
-		var ws = new WebSocket('ws://localhost:5150'); //for testing locally (these 2 lines are the only ones i need to change)
+		var ws = new WebSocket('wss://websocket-wordvector-5a3259379d3b.herokuapp.com/'); //need to use wss when i upgrade to https. plz dont abuse 0_0!!!!!
+		// var ws = new WebSocket('ws://localhost:5150'); //for testing locally (these 2 lines are the only ones i need to change)
 		ws.onopen = () =>
 		{
 			console.log('Connection opened!');
