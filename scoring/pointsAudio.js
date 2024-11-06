@@ -18,7 +18,12 @@ function scale(semitones, note='A3')
     }
 
     let eachNoteTime = totalTimeAudio / semitones
-    const synth = new Tone.Synth().toDestination();
+
+    var vol = new Tone.Volume(-12);
+    const synth = new Tone.Synth();
+
+    synth.chain(vol, Tone.Master)
+
     const now = Tone.now()
 
     for (let i = 0; i < semitones; i++)
