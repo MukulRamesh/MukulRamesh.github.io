@@ -139,17 +139,32 @@ function prevent(e)
 	e.preventDefault();
 }
 
+flag = true
+function noDrag(time)
+{
+  flag = false
+  setTimeout(yesDrag, time)
+}
+
+function yesDrag()
+{
+  flag = true
+}
+
 function elementDrag(event, elem)
 {
-	const position = { pos1: 0, pos2: 0, pos3: (elem.clientWidth + elem.clientLeft) / 2, pos4: (elem.clientHeight + elem.clientTop) / 2 }
+	if (flag)
+	{
+		const position = { pos1: 0, pos2: 0, pos3: (elem.clientWidth + elem.clientLeft) / 2, pos4: (elem.clientHeight + elem.clientTop) / 2 }
 
-	position.pos1 = position.pos3 - event.clientX;
-	position.pos2 = position.pos4 - event.clientY;
-	position.pos3 = event.clientX;
-	position.pos4 = event.clientY;
-	// set the element's new position:
-	elem.style.top = (elem.offsetTop - position.pos2) + "px";
-	elem.style.left = (elem.offsetLeft - position.pos1) + "px";
+		position.pos1 = position.pos3 - event.clientX;
+		position.pos2 = position.pos4 - event.clientY;
+		position.pos3 = event.clientX;
+		position.pos4 = event.clientY;
+		// set the element's new position:
+		elem.style.top = (elem.offsetTop - position.pos2) + "px";
+		elem.style.left = (elem.offsetLeft - position.pos1) + "px";
+	}
 }
 
 function checkVisible(elm)

@@ -12,6 +12,11 @@ function testtone()
 
 function scale(semitones, note='A3')
 {
+    if (semitones > 16)
+    {
+        semitones = 16
+    }
+
     let eachNoteTime = totalTimeAudio / semitones
     const synth = new Tone.Synth().toDestination();
     const now = Tone.now()

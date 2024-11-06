@@ -67,6 +67,7 @@ function onReceive(data)
             {
                 turnRed()
                 breakStreak()
+                noDrag(1000)
             }
             popOutAllOccupations()
             break

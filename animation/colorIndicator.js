@@ -29,9 +29,9 @@ function turnColor(color='white') //expects only red or green
 
     if (color != 'white')
     {
-        //the delay should be equal or greather than the time specified in 'transition: background-color [TIME] cubic-bezier(1, 1, 1, 1);' in .answerSlot for the transition to occur fully
+        //the delay should be equal or greater than the time specified in 'transition: background-color [TIME] cubic-bezier(1, 1, 1, 1);' in .answerSlot for the transition to occur fully
         //it is curently 200ms
-        currentTimer = setTimeout(turnColor, 200)
+        currentTimer = setTimeout(turnColor, 1000)
     }
     else
     {
