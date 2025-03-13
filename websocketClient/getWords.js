@@ -9,10 +9,12 @@ for (var i = 0; i < numChoices; i++)
     choiceList.push(document.getElementById(i + "answers"))
 }
 
+wsInitializedFlag = false
 initWebSocket().then(function (wsLocal) //sets up websocket
 {
     ws = wsLocal
     ws.onmessage = ({ data }) => onReceive(data)
+    wsInitializedFlag = true
 });
 
 function onReceive(data)
@@ -77,6 +79,17 @@ function onReceive(data)
 
 }
 
+function sendMessage(message)
+{
+    if (wsInitializedFlag)
+    {
+        ws.send(JSON.stringify(message))
+    }
+
+    return wsInitializedFlag
+}
+
+
 function requestNewGame() //uses code 'getid'
 {
     message = {
@@ -84,7 +97,7 @@ function requestNewGame() //uses code 'getid'
         'task': chosenTask
     } // need to generalize this
 
-    ws.send(JSON.stringify(message))
+    return sendMessage(message)
 }
 
 function sendGet3()
@@ -95,7 +108,7 @@ function sendGet3()
             'code': "get3",
             'id': myid,
         }
-        ws.send(JSON.stringify(message))
+        sendMessage(message)
     }
 }
 
@@ -108,7 +121,7 @@ function sendCheckID() //called to validate the id already recieved. Function sh
             'id': myid,
             'task': chosenTask
         }
-        ws.send(JSON.stringify(message))
+        sendMessage(message)
     }
 }
 
@@ -121,5 +134,5 @@ function check3Solution() //gets called from interact.js when all slots are full
         'id': myid
     }
 
-    ws.send(JSON.stringify(message))
+    sendMessage(message)
 }

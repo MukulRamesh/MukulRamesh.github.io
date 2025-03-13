@@ -81,24 +81,38 @@
   user-select: none;
   -webkit-user-select: none;
   /* height: 100%; */
+
+  /* width: fit-content; */
+  /* height: fit-content; */
+
   display: none;
+  width: auto;
   justify-content: center;
-  align-items: center; /* To align vertically, if needed */
+  /* To align vertically, if needed */
+  align-items: center;
+
+
+  /* vertical-align: middle; */
+
   /* background-color: antiquewhite; */
   gap: 60px;
 }
 .singleAnswerContainer {
-  background-color: rgb(115, 115, 115);
 
+  /* background-color: rgb(115, 115, 115); */
+
+
+  align-items: center;
 
   padding: 10px;
-  border: 3px solid black;
+  /* border: 3px solid black; */
   border-radius:16px;
   min-height: 30px;
   aspect-ratio: 7 / 1;
 }
 .answers {
   /* margin: auto; */
+
   display: grid;
   background-color: rgb(0, 0, 0);
   color: white;
@@ -152,4 +166,70 @@ table, th, td {
   font-size: large;
   border: 2px solid black;
   padding: 2px;
+}
+
+@media only screen and (max-width: 600px) {
+  .answerSlot{
+    /* background-color: lightgray; */
+    height: fit-content;
+    width: fit-content;
+    padding: 30px;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: x-large;
+    font-weight: 600;
+
+    border: 3px dashed;
+
+    border-radius: 16px;
+    min-height: 30px;
+    aspect-ratio: 7 / 1;
+
+    z-index: 0;
+
+    display: grid;
+
+    transition: background-color 200ms cubic-bezier(1, 1, 1, 1);
+    transition-delay: 0s;
+  }
+
+
+  .singleAnswerContainer {
+    /* Remove fixed aspect ratio on small screens */
+    aspect-ratio: auto;
+    width: 90%;      /* Use a percentage of available width */
+    margin: 0 auto;  /* Center the container */
+    padding: 10px;
+  }
+
+  .answers {
+    /* Adjust font size and padding for smaller devices */
+    width: 60%;
+    font-size: 1.2rem;
+    padding: 10px;
+  }
+
+  /* If your answer containers are in a flex or grid layout, ensure they stack nicely */
+  #allAnswersContainer {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  #streakText{
+    font-size: large;
+  }
+
+  #timer{
+
+    font-size:larger;
+
+  }
+
+  #scoreText{
+    font-size: large;
+  }
 }

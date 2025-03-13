@@ -7,6 +7,7 @@ for (var i = 0; i < NUM_ANSWERS; i++)
     var singleAnswerContainer = document.createElement("div")
     singleAnswerContainer.id = i + "answerContainer"
     singleAnswerContainer.className = "singleAnswerContainer"
+    singleAnswerContainer.style = "align-items: center;"
 
     var draggableAnswer = document.createElement("div")
     draggableAnswer.id = i + "answers"
@@ -16,7 +17,7 @@ for (var i = 0; i < NUM_ANSWERS; i++)
 
     var testContent = document.createElement("p")
     testContent.innerHTML = "test" + i
-    testContent.style = "margin: auto; justify-self: center;"
+    testContent.style = "margin: auto; justify-self: center"
     draggableAnswer.appendChild(testContent)
     draggableAnswer.style.position = "absolute"
 

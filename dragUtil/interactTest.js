@@ -2,96 +2,97 @@
 // let slotChildren = slotContainer.children
 
 //maybe only do bounding box math if we are going to need drag util (and we dont, if we are using a touch screen)?
-
-let snapTargets = []
-
-for (var i = 0; i < slotChildren.length; i++)
+if (!isTouchScreen)
 {
-	var slot = slotChildren[i];
+	let snapTargets = []
 
-	if (slot.className == 'slotBreak')
+	for (var i = 0; i < slotChildren.length; i++)
 	{
-		continue
-	}
+		var slot = slotChildren[i];
 
-	var rect = slot.getBoundingClientRect()
-	snapTargets.push({ x: ((rect.left + rect.right) / 2) + window.scrollX, y: ((rect.top + rect.bottom) / 2) + window.scrollY, range: 150 })
-}
-
-for (var i = 0; i < answerChildren.length; i++)
-{
-	var answerChild = answerChildren[i];
-	var rect = answerChild.getBoundingClientRect()
-	snapTargets.push({ x: ((rect.left + rect.right) / 2) + window.scrollX, y: ((rect.top + rect.bottom) / 2) + window.scrollY, range: 75 })
-}
-
-const snapToSlot = interact.modifiers.snap({
-	origin: { x: 0, y: 0 },
-	endOnly: true,
-	targets: snapTargets,
-})
-
-const answers = interact('.answers')
-answers.draggable({
-	origin: 'self',
-	inertia: true,                    // start inertial movement if thrown
-	modifiers: [snapToSlot],
-	listeners: {
-		start(event)
+		if (slot.className == 'slotBreak')
 		{
-			const elem = event.target
-			elem.style.position = 'absolute';
-			document.onmousemove = prevent
-			// console.log(event)
-		},
-		move(event)
-		{
-			const elem = event.target
-
-			elementDrag(event, elem)
-
-			if (!checkVisible(elem))
-			{
-				resetAnswer(elem)
-			}
-
-			if (event.dragLeave != null)
-			{
-				let slotID = event.dragLeave.id
-				let index = slotID.slice(4)
-				let occupation = getSlotOccupations()[index]
-
-				if (occupation != null && occupation.id == event.target.id)
-				{
-					setSlotEmpty(event.dragLeave.id.slice(4))
-				}
-
-			}
+			continue
 		}
-	},
 
-})
-
-
-const answerSlot = interact('.answerSlot')
-answerSlot.dropzone({
-	ondrop: function (event)
-	{
-		// console.log(event)
-		// alert(event.relatedTarget.id
-		// 	+ ' was dropped into '
-		// 	+ event.target.id)
-
-		let index = event.target.id.slice(4) //magic string is the index of the slot
-
-		answerChosen(index, event.relatedTarget)
+		var rect = slot.getBoundingClientRect()
+		snapTargets.push({ x: ((rect.left + rect.right) / 2) + window.scrollX, y: ((rect.top + rect.bottom) / 2) + window.scrollY, range: 150 })
 	}
-})
-	.on('dropactivate', function (event)
+
+	for (var i = 0; i < answerChildren.length; i++)
 	{
-		event.target.classList.add('drop-activated')
+		var answerChild = answerChildren[i];
+		var rect = answerChild.getBoundingClientRect()
+		snapTargets.push({ x: ((rect.left + rect.right) / 2) + window.scrollX, y: ((rect.top + rect.bottom) / 2) + window.scrollY, range: 75 })
+	}
+
+	const snapToSlot = interact.modifiers.snap({
+		origin: { x: 0, y: 0 },
+		endOnly: true,
+		targets: snapTargets,
 	})
 
+	const answers = interact('.answers')
+	answers.draggable({
+		origin: 'self',
+		inertia: true,                    // start inertial movement if thrown
+		modifiers: [snapToSlot],
+		listeners: {
+			start(event)
+			{
+				const elem = event.target
+				elem.style.position = 'absolute';
+				document.onmousemove = prevent
+				// console.log(event)
+			},
+			move(event)
+			{
+				const elem = event.target
+
+				elementDrag(event, elem)
+
+				if (!checkVisible(elem))
+				{
+					resetAnswer(elem)
+				}
+
+				if (event.dragLeave != null)
+				{
+					let slotID = event.dragLeave.id
+					let index = slotID.slice(4)
+					let occupation = getSlotOccupations()[index]
+
+					if (occupation != null && occupation.id == event.target.id)
+					{
+						setSlotEmpty(event.dragLeave.id.slice(4))
+					}
+
+				}
+			}
+		},
+
+	})
+
+
+	const answerSlot = interact('.answerSlot')
+	answerSlot.dropzone({
+		ondrop: function (event)
+		{
+			// console.log(event)
+			// alert(event.relatedTarget.id
+			// 	+ ' was dropped into '
+			// 	+ event.target.id)
+
+			let index = event.target.id.slice(4) //magic string is the index of the slot
+
+			answerChosen(index, event.relatedTarget)
+		}
+	})
+		.on('dropactivate', function (event)
+		{
+			event.target.classList.add('drop-activated')
+		})
+}
 
 
 function resetAnswer(elem)

@@ -11,13 +11,15 @@ addClickListenerToElem(slotChildren[0], resetGame)
 
 function resetGame()
 {
-    if (resetTimer())
+    if (requestNewGame())
     {
-        requestNewGame()
-        hideRestartGame()
-        hideHistoryShowAnswers()
-        clearScore()
-        clearHistory()
+        if (resetTimer())
+        {
+            hideRestartGame()
+            hideHistoryShowAnswers()
+            clearScore()
+            clearHistory()
+        }
     }
 }
 
