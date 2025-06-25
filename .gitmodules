@@ -1,0 +1,3 @@
+[submodule "toys/crossword"]
+	path = toys/crossword
+	url = https://github.com/MukulRamesh/crossword
