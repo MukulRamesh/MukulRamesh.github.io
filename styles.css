@@ -1,0 +1,306 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    /* Hide default scrollbar */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    padding-top: 64px;
+}
+
+/* Hide default scrollbar for webkit browsers */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbars on all elements */
+* {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+/* Ensure html and body elements specifically hide scrollbars */
+html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+/* Additional specificity for body */
+body {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+body::-webkit-scrollbar {
+    display: none !important;
+}
+
+header {
+    background: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+section {
+    opacity: 1;
+    visibility: visible;
+    padding: 20px;
+    transition: background-color 0.5s ease;
+    position: static;
+    width: 100%;
+    box-sizing: border-box;
+    pointer-events: auto;
+    z-index: 0;
+    min-height: 100vh;
+    scroll-margin-top: 80px;
+}
+section.active {
+    background: #e3f0ff;
+    z-index: 2;
+}
+section.fading-out {
+    opacity: 0;
+    visibility: visible;
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Custom Scroll Bar Styles */
+.custom-scrollbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 12px;
+    height: 100vh;
+    background: rgba(240, 240, 240, 0.1);
+    z-index: 999;
+    backdrop-filter: blur(2px);
+}
+
+.scrollbar-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(200, 200, 200, 0.1);
+    border-radius: 6px;
+}
+
+.scrollbar-thumb {
+    position: absolute;
+    width: 8px;
+    background: linear-gradient(180deg, rgba(0, 123, 255, 0.8) 0%, rgba(0, 123, 255, 0.6) 100%);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: width 0.3s ease, background 0.3s ease;
+    left: 2px;
+}
+
+.scrollbar-thumb:hover {
+    width: 10px;
+    background: linear-gradient(180deg, rgba(0, 123, 255, 1) 0%, rgba(0, 123, 255, 0.8) 100%);
+    left: 1px;
+}
+
+.scrollbar-thumb.dragging {
+    width: 10px;
+    background: linear-gradient(180deg, rgba(0, 123, 255, 1) 0%, rgba(0, 123, 255, 0.9) 100%);
+    left: 1px;
+}
+
+/* Section markers on scrollbar */
+.scrollbar-section-marker {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(0, 123, 255, 0.4);
+    border-radius: 50%;
+    left: 3px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.scrollbar-section-marker:hover {
+    background: rgba(0, 123, 255, 0.7);
+    transform: scale(1.2);
+}
+
+.scrollbar-section-marker.active {
+    background: rgba(0, 123, 255, 0.9);
+    transform: scale(1.3);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+/* Section Indicator Styles */
+#section-indicator {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+    z-index: 1000;
+    background: radial-gradient(ellipse at right center, rgba(4, 41, 143, 0.3) 0%, rgba(4, 15, 84, 0.1) 30%, rgba(231, 235, 245, 0.1) 60%, rgba(255,255,255,0.0) 100%);
+    padding: 20px 16px 20px 60px;
+    border-radius: 20px 0 0 20px;
+    backdrop-filter: blur(2px);
+    width: 200px;
+}
+.section-indicator-item {
+    padding: 8px 16px;
+    border-radius: 20px 0 0 20px;
+    background: #f0f0f0;
+    color: #333;
+    font-weight: bold;
+    opacity: 0;
+    transition: background 0.3s, color 0.3s, opacity 0.3s, font-size 0.3s, transform 0.4s ease-out;
+    min-width: 120px;
+    text-align: right;
+    font-size: 1rem;
+    transform: translateX(20px);
+    /* Color fade will be set inline by JS */
+    display: block;
+    cursor: pointer;
+}
+/* Remove old .current, .prev, .next color rules */
+.section-indicator-item.current,
+.section-indicator-item.prev,
+.section-indicator-item.next {
+    background: unset;
+    color: unset;
+    opacity: unset;
+}
+
+/* Size scaling for indicator items */
+.indicator-size-3 { font-size: 2rem; font-weight: bold; opacity: 1; }
+.indicator-size-2 { font-size: 1.4rem; font-weight: bold; opacity: 0.85; }
+.indicator-size-1 { font-size: 1rem; opacity: 0.6; }
+
+/* All section names always visible */
+.section-indicator-item { display: block; }
+
+/* Main navigation bar styles */
+.main-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #222;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 16px 0;
+    z-index: 2000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.main-navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+}
+.main-navbar a:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+/* Remove nav hiding for .main-navbar */
+nav.main-navbar, nav.main-navbar a, nav.main-navbar a:hover {
+    display: flex !important;
+}
+
+/* Fade in/out effects for section indicators */
+.section-indicator-item.fade-in {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.section-indicator-item.fade-out {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+/* Non-selected indicators move slightly offscreen */
+.section-indicator-item.not-selected {
+    transform: translateX(15px);
+    opacity: 0.4;
+}
+
+/* Toy Cards Styles */
+.toy-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: flex-start;
+    margin-top: 32px;
+}
+
+.toy-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 320px;
+    min-height: 140px;
+    background: linear-gradient(135deg, #e3f0ff 0%, #f9fafc 100%);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1.5px 6px rgba(0,123,255,0.08);
+    padding: 28px 28px 20px 28px;
+    text-decoration: none;
+    color: #222;
+    transition: transform 0.22s cubic-bezier(.4,1.4,.6,1), box-shadow 0.22s cubic-bezier(.4,1.4,.6,1), background 0.22s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.toy-card:hover, .toy-card:focus {
+    transform: translateY(-8px) scale(1.035) rotate(-1deg);
+    box-shadow: 0 8px 32px rgba(0,123,255,0.18), 0 2px 8px rgba(0,0,0,0.10);
+    background: linear-gradient(135deg, #d0e6ff 0%, #e3f0ff 100%);
+    outline: none;
+}
+
+.toy-card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #007bff;
+}
+
+.toy-card-desc {
+    font-size: 1.05rem;
+    color: #444;
+    opacity: 0.92;
+    margin-bottom: 0;
+}
+
+.toy-cards-outer {
+    padding-left: 32px;
+    padding-right: 32px;
+    width: 100%;
+    box-sizing: border-box;
+}
+@media (max-width: 600px) {
+    .toy-cards-outer {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
