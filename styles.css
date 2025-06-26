@@ -298,9 +298,149 @@ nav.main-navbar, nav.main-navbar a, nav.main-navbar a:hover {
     width: 100%;
     box-sizing: border-box;
 }
+
+/* Responsive adjustments for section indicators */
+@media (max-width: 1200px) {
+    #section-indicator {
+        width: 160px;
+        padding: 16px 12px 16px 40px;
+        gap: 12px;
+    }
+
+    .section-indicator-item {
+        min-width: 100px;
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+}
+
+@media (max-width: 900px) {
+    #section-indicator {
+        width: 140px;
+        padding: 12px 8px 12px 30px;
+        gap: 10px;
+    }
+
+    .section-indicator-item {
+        min-width: 80px;
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+
+    /* Reduce size scaling on smaller screens */
+    .indicator-size-3 { font-size: 1.4rem; }
+    .indicator-size-2 { font-size: 1.1rem; }
+    .indicator-size-1 { font-size: 0.8rem; }
+
+    /* Responsive adjustments for custom scrollbar */
+    .custom-scrollbar {
+        width: 10px;
+    }
+
+    .scrollbar-thumb {
+        width: 6px;
+        left: 2px;
+    }
+
+    .scrollbar-thumb:hover {
+        width: 8px;
+        left: 1px;
+    }
+
+    .scrollbar-thumb.dragging {
+        width: 8px;
+        left: 1px;
+    }
+
+    .scrollbar-section-marker {
+        width: 5px;
+        height: 5px;
+        left: 2.5px;
+    }
+}
+
+@media (max-width: 768px) {
+    #section-indicator {
+        width: 120px;
+        padding: 10px 6px 10px 25px;
+        gap: 8px;
+    }
+
+    .section-indicator-item {
+        min-width: 70px;
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+
+    /* Further reduce size scaling */
+    .indicator-size-3 { font-size: 1.2rem; }
+    .indicator-size-2 { font-size: 1rem; }
+    .indicator-size-1 { font-size: 0.75rem; }
+}
+
 @media (max-width: 600px) {
     .toy-cards-outer {
         padding-left: 8px;
         padding-right: 8px;
+    }
+
+    #section-indicator {
+        width: 100px;
+        padding: 8px 4px 8px 20px;
+        gap: 6px;
+    }
+
+    .section-indicator-item {
+        min-width: 60px;
+        font-size: 0.7rem;
+        padding: 3px 6px;
+    }
+
+    /* Minimal size scaling for very small screens */
+    .indicator-size-3 { font-size: 1rem; }
+    .indicator-size-2 { font-size: 0.9rem; }
+    .indicator-size-1 { font-size: 0.7rem; }
+
+    /* Responsive adjustments for custom scrollbar */
+    .custom-scrollbar {
+        width: 8px;
+    }
+
+    .scrollbar-thumb {
+        width: 5px;
+        left: 1.5px;
+    }
+
+    .scrollbar-thumb:hover {
+        width: 6px;
+        left: 1px;
+    }
+
+    .scrollbar-thumb.dragging {
+        width: 6px;
+        left: 1px;
+    }
+
+    .scrollbar-section-marker {
+        width: 4px;
+        height: 4px;
+        left: 2px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Hide section indicators on very small screens to prevent overlap */
+    #section-indicator {
+        display: none;
+    }
+
+    /* Adjust section padding to account for hidden indicators */
+    section {
+        padding-right: 20px;
+    }
+
+    /* Hide custom scrollbar on very small screens */
+    .custom-scrollbar {
+        display: none;
     }
 }
