@@ -54,14 +54,15 @@ header {
 section {
     opacity: 1;
     visibility: visible;
-    padding: 20px;
+    padding: 12px 20px;
     transition: background-color 0.5s ease;
     position: static;
     width: 100%;
     box-sizing: border-box;
     pointer-events: auto;
     z-index: 0;
-    min-height: 100vh;
+    /* Removed full-viewport height to reduce gaps */
+    margin: 12px 0;
     scroll-margin-top: 80px;
 }
 section.active {
@@ -441,6 +442,80 @@ nav.main-navbar, nav.main-navbar a, nav.main-navbar a:hover {
 
     /* Hide custom scrollbar on very small screens */
     .custom-scrollbar {
+        display: none;
+    }
+}
+
+/* Responsive contact icon images */
+.contact-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.contact-icons img {
+    height: clamp(20px, 2.8vw, 36px);
+    width: auto;
+    display: block;
+}
+
+@media (max-width: 480px) {
+    .contact-icons {
+        gap: 10px;
+    }
+}
+
+/* Footer styles */
+.site-footer {
+    margin-top: 24px;
+    padding: 24px 16px 40px 16px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.06) 100%);
+    border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.footer-inner {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.attributions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px 14px;
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.attributions a {
+    color: #666;
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(0,123,255,0.35);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.attributions a:hover,
+.attributions a:focus {
+    color: #007bff;
+    border-bottom-color: #007bff;
+}
+
+.attributions .dot {
+    color: #bbb;
+}
+
+@media (max-width: 520px) {
+    .attributions {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .attributions .dot {
         display: none;
     }
 }

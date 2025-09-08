@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const sectionNames = sections.map(sec => sec.querySelector('h2').textContent);
     const indicator = document.getElementById('section-indicator');
     let currentIndicators = [];
+    let hoveredSectionIndex = null;
 
     // Custom scrollbar elements
     const scrollbarThumb = document.querySelector('.scrollbar-thumb');
@@ -84,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update section markers
     function updateScrollbarMarkers() {
         const markers = scrollbarTrack.querySelectorAll('.scrollbar-section-marker');
-        const currentSectionIndex = getCurrentSectionIndex();
+        const currentSectionIndex = (hoveredSectionIndex !== null) ? hoveredSectionIndex : getCurrentSectionIndex();
 
         markers.forEach((marker, index) => {
             if (index === currentSectionIndex) {
@@ -187,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateIndicator() {
-        const idx = getCurrentSectionIndex();
+        const idx = (hoveredSectionIndex !== null) ? hoveredSectionIndex : getCurrentSectionIndex();
 
         // Update existing indicators or create new ones
         sections.forEach((sec, i) => {
@@ -200,10 +201,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 currentIndicators[i] = item;
             }
 
-            // Update styling based on current section
+            // Update styling based on hover-preferred current section
             let bgColor, textColor, opacity;
-            if (i === idx) {
-                // Current section - highlighted
+            if (hoveredSectionIndex === null) {
+                // Neutral when not hovering over any section
+                bgColor = 'rgba(200,200,200,0.03)';
+                textColor = 'rgba(100,100,100,0.5)';
+                opacity = 0.7;
+                item.classList.remove('current');
+                item.classList.add('not-selected');
+            } else if (i === idx) {
+                // Hovered section - highlighted
                 bgColor = 'rgba(0, 123, 255, 0.08)';
                 textColor = 'rgba(0, 123, 255, 0.9)';
                 opacity = 1;
@@ -236,9 +244,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Highlight only the current section
+        // Highlight only the hovered section (if any)
         sections.forEach((sec, i) => {
-            if (i === idx) {
+            if (hoveredSectionIndex !== null && i === idx) {
                 sec.classList.add('active');
             } else {
                 sec.classList.remove('active');
@@ -258,7 +266,19 @@ document.addEventListener('DOMContentLoaded', function () {
         updateScrollbarThumb();
     }
 
-    window.addEventListener('scroll', updateIndicator);
+    // Hover-based highlighting
+    sections.forEach((sec, i) => {
+        sec.addEventListener('mouseenter', () => {
+            hoveredSectionIndex = i;
+            updateIndicator();
+        });
+        sec.addEventListener('mouseleave', () => {
+            hoveredSectionIndex = null;
+            updateIndicator();
+        });
+    });
+
+    // Keep resize behavior
     window.addEventListener('resize', () => {
         updateIndicator();
         createScrollbarMarkers();
