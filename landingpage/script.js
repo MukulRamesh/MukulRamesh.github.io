@@ -21,6 +21,9 @@ function showSection(sectionId) {
 // Section scroll and indicator logic
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Add class to body to indicate JavaScript is enabled
+    document.body.classList.add('js-enabled');
+
     const sections = Array.from(document.querySelectorAll('section'));
     const sectionNames = sections.map(sec => sec.querySelector('h2').textContent);
     const indicator = document.getElementById('section-indicator');
@@ -205,22 +208,22 @@ document.addEventListener('DOMContentLoaded', function () {
             let bgColor, textColor, opacity;
             if (hoveredSectionIndex === null) {
                 // Neutral when not hovering over any section
-                bgColor = 'rgba(200,200,200,0.03)';
-                textColor = 'rgba(100,100,100,0.5)';
+                bgColor = 'rgba(196, 181, 160, 0.05)';
+                textColor = 'rgba(139, 115, 85, 0.6)';
                 opacity = 0.7;
                 item.classList.remove('current');
                 item.classList.add('not-selected');
             } else if (i === idx) {
                 // Hovered section - highlighted
-                bgColor = 'rgba(0, 123, 255, 0.08)';
-                textColor = 'rgba(0, 123, 255, 0.9)';
+                bgColor = 'rgba(112, 66, 20, 0.12)';
+                textColor = 'rgba(112, 66, 20, 0.95)';
                 opacity = 1;
                 item.classList.add('current');
                 item.classList.remove('not-selected');
             } else {
                 // Other sections - neutral
-                bgColor = 'rgba(200,200,200,0.03)';
-                textColor = 'rgba(100,100,100,0.5)';
+                bgColor = 'rgba(196, 181, 160, 0.05)';
+                textColor = 'rgba(139, 115, 85, 0.6)';
                 opacity = 0.7;
                 item.classList.remove('current');
                 item.classList.add('not-selected');
@@ -286,6 +289,136 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Initialize everything
+    // Initialize cards truncation and toggle behaviour
+    function initCards() {
+        const cards = Array.from(document.querySelectorAll('.cards-grid .card'));
+        cards.forEach(card => {
+            const desc = card.querySelector('p');
+            if (!desc) return;
+            const fullText = desc.textContent.trim();
+            desc.dataset.full = fullText;
+
+            // Hide text initially (no truncation preview) - only if JS is enabled
+            if (document.body.classList.contains('js-enabled')) {
+                desc.textContent = '';
+                desc.style.display = 'none';
+                card.setAttribute('aria-expanded', 'false');
+                card.classList.remove('expanded');
+                // Add dimmed class to all cards by default
+                card.classList.add('dimmed');
+            }
+
+            // Add indicator after heading if not present
+            const hdr = card.querySelector('h3');
+            if (hdr && !card.querySelector('.more-indicator')) {
+                const more = document.createElement('span');
+                more.className = 'more-indicator';
+                more.textContent = 'Read more';
+                hdr.appendChild(more);
+            }
+
+            // make card keyboard focusable
+            if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '0');
+
+            // click toggles expanded state
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!card.classList.contains('expanded')) {
+                    // Collapse all other cards first
+                    cards.forEach(otherCard => {
+                        if (otherCard !== card && otherCard.classList.contains('expanded')) {
+                            // Clear any ongoing typewriter effect
+                            if (otherCard.dataset.typeInterval) {
+                                clearInterval(otherCard.dataset.typeInterval);
+                                delete otherCard.dataset.typeInterval;
+                            }
+
+                            otherCard.classList.remove('expanded');
+                            const otherD = otherCard.querySelector('p');
+                            otherD.textContent = '';
+                            otherD.style.display = 'none';
+                            otherCard.setAttribute('aria-expanded', 'false');
+                            const otherInd = otherCard.querySelector('.more-indicator');
+                            if (otherInd) otherInd.textContent = 'Read more';
+                        }
+                    });
+
+                    // Add dimmed class to all other cards
+                    cards.forEach(otherCard => {
+                        if (otherCard !== card) {
+                            otherCard.classList.add('dimmed');
+                        }
+                    });
+
+                    // expand with typewriter effect
+                    card.classList.remove('dimmed'); // Remove dimmed from the card being expanded
+                    card.classList.add('expanded');
+                    const d = card.querySelector('p');
+                    const fullText = d.dataset.full;
+
+                    // Show the paragraph and clear current text, start typewriter effect (word by word)
+                    d.style.display = 'block';
+                    d.innerHTML = '';
+
+                    // Split by words but preserve newlines
+                    const parts = fullText.split(/(\s+)/); // Split keeping whitespace
+                    let partIndex = 0;
+                    const typeSpeed = 1; // milliseconds per word (adjust for speed)
+
+                    const typeInterval = setInterval(() => {
+                        if (partIndex < parts.length) {
+                            const part = parts[partIndex];
+                            // Convert newlines to <br> tags for HTML rendering
+                            if (part.includes('\n')) {
+                                d.innerHTML += part.replace(/\n/g, '<br>');
+                            } else {
+                                d.innerHTML += part;
+                            }
+                            partIndex++;
+                        } else {
+                            clearInterval(typeInterval);
+                        }
+                    }, typeSpeed);
+
+                    // Store interval ID so we can clear it if user collapses before completion
+                    card.dataset.typeInterval = typeInterval;
+
+                    card.setAttribute('aria-expanded', 'true');
+                    const ind = card.querySelector('.more-indicator'); if (ind) ind.textContent = 'Show less';
+                } else {
+                    // collapse
+                    // Clear any ongoing typewriter effect
+                    if (card.dataset.typeInterval) {
+                        clearInterval(card.dataset.typeInterval);
+                        delete card.dataset.typeInterval;
+                    }
+
+                    card.classList.remove('expanded');
+                    const d = card.querySelector('p');
+                    d.textContent = '';
+                    d.style.display = 'none';
+                    card.setAttribute('aria-expanded', 'false');
+                    const ind = card.querySelector('.more-indicator'); if (ind) ind.textContent = 'Read more';
+
+                    // Add dimmed class back to all cards when collapsing (return to unfocused state)
+                    cards.forEach(otherCard => {
+                        otherCard.classList.add('dimmed');
+                    });
+                }
+            });
+
+            // keyboard activation (Enter / Space)
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.click();
+                }
+            });
+        });
+    }
+
+    initCards();
+
     updateIndicator();
     initScrollbar();
 });
