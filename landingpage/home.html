@@ -5,82 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mukul Ramesh - Accomplishments</title>
     <link rel="stylesheet" href="../styles.css">
-    <style>
-    /* Card collapsed/expanded styles local to this page */
-    .cards-grid {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 16px;
-        align-items: flex-start;
-        position: relative;
-    }
-
-    .cards-grid .card {
-        display: block;
-        padding: 2.5rem;
-        border-radius: 12px;
-        transition: box-shadow 200ms ease, transform 200ms ease, opacity 160ms ease;
-        text-decoration: none;
-        color: inherit;
-        background: var(--card-bg, #fff);
-        width: 100%;
-        box-sizing: border-box;
-        min-height: 180px;
-    }
-
-    .cards-grid .card h3 {
-        font-size: 2.5rem;
-        margin: 0;
-    }
-
-    .cards-grid .card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
-    .cards-grid .card p { margin: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; line-clamp: 4; -webkit-box-orient: vertical; }
-
-    /* When JS is disabled, show full content */
-    .cards-grid .card p { display: block; }
-
-    /* When JS is enabled, hide content initially - controlled by .js-enabled class */
-    .js-enabled .cards-grid .card p { display: none; }
-    .cards-grid .card.expanded p { max-height: none; overflow: visible; }
-
-    /* Hide "Read more" indicator when JS is disabled since it won't be functional */
-    .cards-grid .card .more-indicator { display: none; }
-    .js-enabled .cards-grid .card .more-indicator { display: inline-block; margin-left: 10px; color: #666; font-size: 0.6em; }
-    .cards-grid .card.dimmed {
-        opacity: 0.4;
-        transform: scale(0.95);
-        transition: opacity 0.3s ease, transform 0.3s ease, width 0.3s ease, min-height 0.3s ease;
-        cursor: pointer;
-        width: 180px !important;
-        min-height: 100px;
-    }
-    .cards-grid .card.dimmed h3 { font-size: 1.5rem; }
-    .cards-grid .card.dimmed:hover { transform: scale(0.98); opacity: 0.6; box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
-
-    /* When expanded, card grows to full available width and moves to top */
-    .cards-grid .card.expanded {
-        width: 100%;
-        flex-basis: 100%;
-        order: -1;
-    }
-
-    /* Non-expanded cards maintain normal order */
-    .cards-grid .card:not(.expanded) {
-        order: 0;
-    }
-
-    /* Clone overlay used during animated expansion */
-    .card-clone {
-        position: absolute;
-        z-index: 9999;
-        box-sizing: border-box;
-        margin: 0;
-        transition: left 280ms ease, top 280ms ease, width 280ms ease, height 280ms ease, transform 280ms ease, opacity 200ms ease;
-        overflow: hidden;
-        pointer-events: none;
-    }
-    </style>
 </head>
 <body>
 
@@ -112,7 +36,7 @@
 
                 I order my food, and the server comes back after a while and does the same thing again, except this time he seems confused too.
 
-                He presents a paper hat with the diner logo on it. This does not help me understand what is going on.
+                He presents a paper hat with the diner logo on it. This does not help.
 
                 He says I'm supposed to wear the hat.
 
