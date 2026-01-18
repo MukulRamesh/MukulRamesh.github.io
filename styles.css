@@ -481,10 +481,9 @@ nav.main-navbar, nav.main-navbar a, nav.main-navbar a:hover {
 }
 .cards-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(clamp(187px, 18vw, 253px),1fr));
     gap:1rem;
     margin:0.5rem 0 2rem;
-    padding-right:max(3rem,6vw);
 }
 .card{
     display:block;
@@ -507,19 +506,10 @@ nav.main-navbar, nav.main-navbar a, nav.main-navbar a:hover {
 @media (max-width:420px){
     .cards-header{flex-direction:column;align-items:flex-start}
     .resume-btn{margin-top:0.5rem}
-    .cards-grid{padding-right:1rem}
 }
 
 /* Card expansion and animation styles for landing page */
 /* Card collapsed/expanded styles local to this page */
-.cards-grid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 16px;
-    align-items: flex-start;
-    position: relative;
-}
 
 .cards-grid .card {
     display: block;
@@ -529,10 +519,10 @@ nav.main-navbar, nav.main-navbar a, nav.main-navbar a:hover {
     text-decoration: none;
     color: inherit;
     background: var(--card-bg, #fff);
-    width: 200px;
-    height: 200px;
+    min-height: 200px;
     box-sizing: border-box;
     overflow: hidden;
+    aspect-ratio: 1 / 1;
 }
 
 .cards-grid .card h3 {
@@ -571,9 +561,10 @@ nav.main-navbar, nav.main-navbar a, nav.main-navbar a:hover {
 
 /* When expanded, card grows to full available width and moves to top */
 .cards-grid .card.expanded {
+    grid-column: 1 / -1;
     width: 100%;
     height: auto;
-    flex-basis: 100%;
+    aspect-ratio: unset;
     order: -1;
     overflow: visible;
 }

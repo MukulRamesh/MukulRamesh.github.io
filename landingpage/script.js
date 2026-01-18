@@ -385,6 +385,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     card.setAttribute('aria-expanded', 'true');
                     const ind = card.querySelector('.more-indicator'); if (ind) ind.textContent = 'Show less';
+
+                    // Scroll card into view smoothly, accounting for fixed navbar
+                    setTimeout(() => {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 50);
                 } else {
                     // collapse
                     // Clear any ongoing typewriter effect
