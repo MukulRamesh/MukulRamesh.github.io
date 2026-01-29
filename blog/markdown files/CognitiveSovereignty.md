@@ -1,0 +1,41 @@
+---
+layout: post
+author: Mukul Ramesh
+title: template
+---
+# Cognitive Sovereignty and You
+
+
+## TLDR:
+Everything's trying to manipulate you and you don't have the tools to stop them. But we can make them.
+
+## What I mean by "Everything's trying to get you"
+Okay, "everything" might be an exaggeration, but it's not much of one:
+
+There are many people out there whose motives differ from your own. For some of these people, you could be a source of value, and so these people may want you to act against your best interest. This is the first basic assumption in this essay.
+
+For example, while a company's primary goal (simplifying) is to increase value for their shareholders. Some of the actions they take may be beneficial for you (innovation to improve their product) but not all (funding misinformation about the adverse effects of their product). Not all companies are evil; some are merely amoral. But none are operating with your *personal* best interests.
+
+## What I mean by "you don't have the tools to stop them"
+
+The modern world is dominated by a few hegemonies. This fact is important because when power is consolidated, it is more difficult to get out from under it. You are no longer protecting your mind from an equal; you must protect it from entities with a century's worth of psychology and neuroscience research [^1], and who are willing to spend billions of dollars annually [^2].
+
+They are better at manipulating you then you are at fighting their manipulations. "Education as innoculation" simply isn't good enough [^3]. In fact, I have not learned of a tool or strategy that is 100% effective; that is, a tool that guarantees your perception of reality to be  "untampered" [^4].
+
+This is the second basic assumption of this essay.
+
+## It gets worse
+
+I first
+
+ Platforms that utilize short form content benefits
+
+
+[^1]: The study of persuasive advertisement began in 1895 when Harlow Gale, a psychologist at the University of Minnesota, sent out questionnaires to businesses to study how people reacted to advertisements. Soon after in 1903, Walter Dill Scott published *The Theory of Advertising* in where he argued that humans were not purely rational but were highly suggestible and influenced by emotion and imagery.
+
+[^2]: https://www.mordorintelligence.com/industry-reports/neuromarketing-market
+
+[^3]: https://www.emergentmind.com/topics/dark-pattern-effectiveness
+
+[^4]: Okay, so you *could* go live in a cabin in the woods. But (1) you won't and (2) you shouldn't need to resort to such extreme methods just to reclaim the sanctity of your own mind. We live in an interconnected world; that is what makes it livable. The option to leave the world behind presupposes a not-unsubstantial level of wealth. How can you go live in a cabin in the woods when there aren't any woods left? How much will the untainted world be worth then? It isn't an option for most of us.
+
