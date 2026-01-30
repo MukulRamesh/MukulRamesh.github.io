@@ -28,12 +28,20 @@ This is the second basic assumption of this essay.
 
 So far, this essay could ostensibly be only about advertising. 
 
-However, the 
+However, about 10 to 15 years ago, the power dynamic between powerful entities and you radically shifted. We shifted from a "one-to-many" *broadcast* world, where a few TV channels spoke to millions, to a "many-to-many" *algorithmic* world where millions of entities compete for the attention of billions. 
 
+Very recently, the power dynamic shifted again, with the invention of GenAI; suddenly, your ability to create ~~content~~ slop is limited only by the number of GPUs at your disposal. 
 
-We have shifted from a "one-to-many" broadcast world, where a few TV channels spoke to millions, to a "many-to-many" algorithmic world where millions of entities compete for the attention of billions.
+Engagement driven platforms benefit from content that optimizes for dopamine and outrage. There is no second option for social media consumption.
 
- Platforms that utilize short form content benefits
+The consumer does not have control over their algorithms. What if we could change that?
+
+# A modest proposal
+
+There is a need for a product that addresses these concerns.
+
+I imagine a product that optimizes for the user's intent rather than engagement.
+
 
 
 [^1]: The study of persuasive advertisement began in 1895 when Harlow Gale, a psychologist at the University of Minnesota, sent out questionnaires to businesses to study how people reacted to advertisements. Soon after in 1903, Walter Dill Scott published *The Theory of Advertising* in where he argued that humans were not purely rational but were highly suggestible and influenced by emotion and imagery.
