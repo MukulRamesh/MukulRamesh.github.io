@@ -18,7 +18,7 @@ For example, while a company's primary goal (simplifying) is to increase value f
 
 ## What I mean by "you don't have the tools to stop them"
 
-The modern world is dominated by a few hegemonies. This fact is important because when power is consolidated, it is more difficult to get out from under it. You are no longer protecting your mind from an equal; you must protect it from entities with a century's worth of psychology and neuroscience research [^1], and who are willing to spend billions of dollars annually [^2].
+The modern world is dominated by a few hegemonies. This fact is important because when power is consolidated, it is more difficult to get out from under it. You are no longer protecting your mind from a human; you must protect it from entities with a century's worth of psychology and neuroscience research [^1], and who are willing to spend billions of dollars annually [^2].
 
 They are better at manipulating you then you are at fighting their manipulations. "Education as innoculation" simply isn't good enough [^3]. In fact, I have not learned of a tool or strategy that is 100% effective; that is, a tool that guarantees your perception of reality to be  "untampered" [^4].
 
@@ -26,7 +26,12 @@ This is the second basic assumption of this essay.
 
 ## It gets worse
 
-I first
+So far, this essay could ostensibly be only about advertising. 
+
+However, the 
+
+
+We have shifted from a "one-to-many" broadcast world, where a few TV channels spoke to millions, to a "many-to-many" algorithmic world where millions of entities compete for the attention of billions.
 
  Platforms that utilize short form content benefits
 
