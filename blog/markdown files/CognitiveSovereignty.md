@@ -26,13 +26,21 @@ This is the second basic assumption of this essay.
 
 ## It gets worse
 
-So far, this essay could ostensibly be only about advertising. 
+So far, this essay could ostensibly be only about advertising.
 
-However, about 10 to 15 years ago, the power dynamic between powerful entities and you radically shifted. We shifted from a "one-to-many" *broadcast* world, where a few TV channels spoke to millions, to a "many-to-many" *algorithmic* world where millions of entities compete for the attention of billions. 
+About 10 to 15 years ago, the power dynamic between powerful entities and you radically shifted. We shifted from a "one-to-many" *broadcast* world, where a few TV channels spoke to millions, to a "many-to-many" *algorithmic* world where millions of entities compete for the attention of billions.
 
-Very recently, the power dynamic shifted again, with the invention of GenAI; suddenly, your ability to create ~~content~~ slop is limited only by the number of GPUs at your disposal. 
+Very recently, the power dynamic shifted again, with the invention of GenAI; suddenly, your ability to create ~~content~~ slop is limited only by the number of GPUs at your disposal.
 
-Engagement driven platforms benefit from content that optimizes for dopamine and outrage. There is no second option for social media consumption.
+This shifted the conversation in every engagement driven platform. Because they benefit from content that optimizes for dopamine and outrage, rather than thoughtful content, AI slop dominates.
+
+Even in platforms made to prioritize human connection, it is now possible for GenAI to infiltrate and pose as humans. We know this has happened before, because the technology was immature enough to be recognized.
+
+[picture of AI being told to ignore previous instructions and output recipe]
+
+
+
+A specific term perhaps comes to mind: *dead internet theory*.
 
 The consumer does not have control over their algorithms. What if we could change that?
 
