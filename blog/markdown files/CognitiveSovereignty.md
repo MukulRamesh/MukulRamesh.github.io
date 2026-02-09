@@ -20,7 +20,7 @@ For example, while a company's primary goal (simplifying) is to increase value f
 
 The modern world is dominated by a few hegemonies. This fact is important because when power is consolidated, it is more difficult to get out from under it. You are no longer protecting your mind from a human; you must protect it from entities with a century's worth of psychology and neuroscience research [^1], and who are willing to spend billions of dollars annually [^2].
 
-They are better at manipulating you then you are at fighting their manipulations. "Education as innoculation" simply isn't good enough [^3]. In fact, I have not learned of a tool or strategy that is 100% effective; that is, a tool that guarantees your perception of reality to be  "untampered" [^4].
+They are better at manipulating you then you are at fighting their manipulations. "Education as innoculation" simply isn't good enough [^3]. Even the "tools" we have are co-opted to serve outside interests: bot farms, paid reviews, and aggressive SEO gaming have rendered public signals noisy and often entirely fabricated. In fact, I have not learned of a tool or strategy that is 100% effective; that is, a tool that guarantees your perception of reality to be  "untampered" [^4].
 
 This is the second basic assumption of this essay.
 
@@ -28,29 +28,57 @@ This is the second basic assumption of this essay.
 
 So far, this essay could ostensibly be only about advertising.
 
-About 10 to 15 years ago, the power dynamic between powerful entities and you radically shifted. We shifted from a "one-to-many" *broadcast* world, where a few TV channels spoke to millions, to a "many-to-many" *algorithmic* world where millions of entities compete for the attention of billions.
+About 10 to 15 years ago, the power dynamic between media and the world radically shifted. We shifted from a "one-to-many" *broadcast* world, where a few TV channels spoke to millions, to a "many-to-many" *algorithmic* world where millions of entities compete for the attention of billions.
 
 Very recently, the power dynamic shifted again, with the invention of GenAI; suddenly, your ability to create ~~content~~ slop is limited only by the number of GPUs at your disposal.
 
-This shifted the conversation in every engagement driven platform. Because they benefit from content that optimizes for dopamine and outrage, rather than thoughtful content, AI slop dominates.
+This changed the equation in every engagement driven platform. Because they benefit from content that optimizes for dopamine and outrage, rather than thoughtful content, AI slop dominates.
 
-Even in platforms made to prioritize human connection, it is now possible for GenAI to infiltrate and pose as humans. We know this has happened before, because the technology was immature enough to be recognized.
+Even in platforms made to prioritize human connection, it is now possible for GenAI to infiltrate and pose as humans. We know this has happened before:
 
 [picture of AI being told to ignore previous instructions and output recipe]
+*dead internet theory*
+
+and the technology will only mature (read: become more undetectable) from here.
+
+The consumer does not have control over their algorithms.
+
+What if we could change that?
+
+## A modern proposal
+Imagine a user-owned AI that operates across every "social-media consumption device" you own. Rather than simply blocking visual banners, it blocks irrelevant concepts. Imagine browsing Amazon not through their "personalized" user interface, but through an agent that scrapes the raw data and re-renders only the three options that meet strict criteria, such as "ethically sourced" and "under $50."
+
+This would invert the power dynamic of the modern web. Currently, marketers A/B test against our psychology. In this new paradigm, ***our*** agents A/B test against their marketing claims.
+
+I imagine a product that optimizes for the user's intent, *as the user defines it for themselves* rather than something as harmful as guessing what the user wants through a proxy like *engagement*.
+
+## im being fr rn
+The proposal for personal AI agents often sounds like science fiction, but the technical reality is already here.
+
+We are currently undergoing a massive hardware shift with the rise of the Neural Processing Unit (NPU) in consumer devices. From the Apple Neural Engine to Snapdragon processors, our laptops and phones now possess the silicon required to run quantized Small Language Models (SLMs) like Llama-3-8B or Mistral locally.
+
+Fundamentally, this product requires that the agent respects user privacy: everything needs to run on user-owned devices.
+
+Cloud-based AI is inherently a surveillance architecture, and requires sending your data to untrusted models. Local AI is a utility architecture; it brings the model to your data. This is not a service you subscribe to, but a tool you own. A pair of glasses shouldn't report what you see to a corporation.
+
+## this will totally work
+Critics of this shift often point to the "Adversarial Web" as an economic barrier. If users deploy agents to scrape clean data, companies will likely retaliate by blocking scrapers and obfuscating information to protect their "walled gardens." I believe this is a technical challenge that which is being solved at a rapid pace; web scraping technology has rapidly matured in response to the gluttenous cost of training AI.
+
+Just as websites optimized for Google's crawlers to survive the search engine era, retailers will eventually have to optimize for AI agents to capture high-intent buyers. This "SEO for Agents" suggests a market shift toward those who provide "clean data" APIs over those who hide behind visual clutter.
+
+A more ethical concern is the risk of the "Echo Chamber." If an agent only shows us what we want to see, do we risk radicalization?
+
+While solipsism is a valid risk, it is arguably the lesser of two evils. Research on the "Backfire Effect" suggests that forced exposure to opposing views often entrenches beliefs rather than challenging them [CITATION]. The current reality is an active radicalization engine, where algorithms monetize outrage to keep users scrolling. A user-owned shield is a passive isolation engine. While it may insulate the user, it is ethically superior to a system designed for profit-driven manipulation.
+
+## it matters
+Desperate and vulnerable people will always be the ones who are exploited the most.
+
+This means your kids. This means a weaker social safety net for you and your loved ones.
+
+This is different than what has come before. A basic human right of self-determination is under attack, and we should build the tools to fight back.
 
 
-
-A specific term perhaps comes to mind: *dead internet theory*.
-
-The consumer does not have control over their algorithms. What if we could change that?
-
-# A modest proposal
-
-There is a need for a product that addresses these concerns.
-
-I imagine a product that optimizes for the user's intent rather than engagement.
-
-
+## References
 
 [^1]: The study of persuasive advertisement began in 1895 when Harlow Gale, a psychologist at the University of Minnesota, sent out questionnaires to businesses to study how people reacted to advertisements. Soon after in 1903, Walter Dill Scott published *The Theory of Advertising* in where he argued that humans were not purely rational but were highly suggestible and influenced by emotion and imagery.
 
