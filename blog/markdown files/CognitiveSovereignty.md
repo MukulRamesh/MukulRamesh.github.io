@@ -12,9 +12,13 @@ Everything's trying to manipulate you and you don't have the tools to stop them.
 ## What I mean by "Everything's trying to get you"
 Okay, "everything" might be an exaggeration, but it's not much of one:
 
-There are many people out there whose motives differ from your own. For some of these people, you could be a source of value, and so these people may want you to act against your best interest. This is the first basic assumption in this essay.
+There are many people out there whose motives differ from your own. For some of these people, you could be a source of value, and so these people may want you to act against your best interest.
 
-For example, while a company's primary goal (simplifying) is to increase value for their shareholders. Some of the actions they take may be beneficial for you (innovation to improve their product) but not all (funding misinformation about the adverse effects of their product). Not all companies are evil; some are merely amoral. But none are operating with your *personal* best interests.
+For example, take the typical American company. Their primary goal is to increase value for their shareholders. Some of the actions they take may be beneficial for you (innovation to improve their product) but not all (like funding misinformation about the adverse effects of their product).
+
+A company will operate with your personal best interests *if and only if* the company believes doing so is necessary to maximize profits. So, not likely.
+
+This is the first basic assumption in this essay.
 
 ## What I mean by "you don't have the tools to stop them"
 
@@ -32,16 +36,16 @@ About 10 to 15 years ago, the power dynamic between media and the world radicall
 
 Very recently, the power dynamic shifted again, with the invention of GenAI; suddenly, your ability to create ~~content~~ slop is limited only by the number of GPUs at your disposal.
 
-This changed the equation in every engagement driven platform. Because they benefit from content that optimizes for dopamine and outrage, rather than thoughtful content, AI slop dominates.
+This changed the equation for every engagement driven platform. They benefit from content that optimizes for dopamine and outrage, rather than thoughtful content, and so AI slop dominates.
 
-Even in platforms made to prioritize human connection, it is now possible for GenAI to infiltrate and pose as humans. We know this has happened before:
+Even in platforms where human connection is a priority, it is now possible for GenAI to infiltrate and pose as humans. We know this has happened before:
 
 [picture of AI being told to ignore previous instructions and output recipe]
 *dead internet theory*
 
 and the technology will only mature (read: become more undetectable) from here.
 
-The consumer does not have control over their algorithms.
+The consumer can alter their behavior around an algorithm, but the consumer does not have control over their algorithms.
 
 What if we could change that?
 
@@ -64,11 +68,13 @@ Cloud-based AI is inherently a surveillance architecture, and requires sending y
 ## this will totally work
 Critics of this shift often point to the "Adversarial Web" as an economic barrier. If users deploy agents to scrape clean data, companies will likely retaliate by blocking scrapers and obfuscating information to protect their "walled gardens." I believe this is a technical challenge that which is being solved at a rapid pace; web scraping technology has rapidly matured in response to the gluttenous cost of training AI.
 
-Just as websites optimized for Google's crawlers to survive the search engine era, retailers will eventually have to optimize for AI agents to capture high-intent buyers. This "SEO for Agents" suggests a market shift toward those who provide "clean data" APIs over those who hide behind visual clutter.
+Just as websites optimized for Google's crawlers to survive the search engine era, retailers will eventually have to optimize for AI agents to capture high-intent buyers. I envision "SEO for Agents": "clean data" APIs over visual clutter.
 
 A more ethical concern is the risk of the "Echo Chamber." If an agent only shows us what we want to see, do we risk radicalization?
 
-While solipsism is a valid risk, it is arguably the lesser of two evils. Research on the "Backfire Effect" suggests that forced exposure to opposing views often entrenches beliefs rather than challenging them [CITATION]. The current reality is an active radicalization engine, where algorithms monetize outrage to keep users scrolling. A user-owned shield is a passive isolation engine. While it may insulate the user, it is ethically superior to a system designed for profit-driven manipulation.
+While solipsism is a valid risk, it is arguably the lesser of two evils. The current reality is an active radicalization engine, where algorithms monetize outrage to keep users scrolling.
+
+A user-owned shield is a passive isolation engine. While it may insulate the user, it is ethically superior to a system designed for profit-driven manipulation.
 
 ## it matters
 Desperate and vulnerable people will always be the ones who are exploited the most.
