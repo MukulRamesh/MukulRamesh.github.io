@@ -74,7 +74,7 @@ A more ethical concern is the risk of the "Echo Chamber." If an agent only shows
 
 While solipsism is a valid risk, it is arguably the lesser of two evils. The current reality is an active radicalization engine, where algorithms monetize outrage to keep users scrolling.
 
-A user-owned shield is a passive isolation engine. While it may insulate the user, it is ethically superior to a system designed for profit-driven manipulation.
+A user-owned shield is ethically superior to a system designed for profit-driven manipulation.
 
 ## it matters
 Desperate and vulnerable people will always be the ones who are exploited the most.
