@@ -43,7 +43,7 @@ I've seen some sentiment from my friends and family about ways you can participa
 
 I can see why this framing is beneficial. Being essentially forced to participate on these platforms, it is empowering to believe that you are the one at the helm.
 
-However, consider the strength of your opponent: they have a century's worth of psychology and neuroscience research [^1], and billions of dollars annually [^2].
+However, consider the strength of your opponent: they have a century's worth of psychology and neuroscience research [^1], and are willing to spend their billions of dollars annually on protecting their interests [^2].
 
 What would a solution even look like [^3]?
 
