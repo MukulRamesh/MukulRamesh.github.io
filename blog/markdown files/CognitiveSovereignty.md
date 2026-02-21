@@ -3,38 +3,29 @@ layout: post
 author: Mukul Ramesh
 title: template
 ---
-# Cognitive Sovereignty and You
+# a human in a bot world
 
 
 ## TLDR:
-Its weird how normalized hyper-specific advertising is. It is even weirder that there isn't really an "opt-out" button anymore.
+hey, isnt it weird how normalized hyper-specific advertising is?
 
-## What I mean by "Everything's trying to get you"
-Okay, "everything" might be an exaggeration, but it's not much of one:
+its even weirder that there isn't really an "opt-out" button anymore. i'm a little worried about the power dynamics of that kind of thing.
 
-There are many people out there whose motives differ from your own. For some of these people, you could be a source of value, and so these people may want you to act against your best interest.
+im *really* worried about the power dynamics of trying to be human in a bot dominated internet.
 
-For example, take the typical American company. Their primary goal is to increase value for their shareholders. Some of the actions they take may be beneficial for you (innovation to improve their product) but not all (like funding misinformation about the adverse effects of their product).
+maybe its time for us to leave, and let the agents do the talking.
 
-A company will operate with your personal best interests *if and only if* the company believes doing so is necessary to maximize profits. So, not likely.
+## we dont even think its a problem anymore
+I mean, we all have stories of getting a Google ad that was scarily accurate right? you were *just* talking about your upcoming barbeque and suddenly you're getting ads for grills. Suspicious.
 
-This is the first basic assumption in this essay.
+Maybe back in 2010 that would have elicited more of a "Big Brother" feeling, but I don't really see that reaction anymore. And now, it isn't just advertising! Basically all the content I consume comes from Youtube and the other social media platforms of my choice, and I am willing to bet that most people are in the same boat as me.
 
-## What I mean by "you don't have the tools to stop them"
+It's now an unfortunate fact of life that almost everything in front of my eyes has been curated by someone I don't really trust.
 
-The modern world is dominated by a few hegemonies. This fact is important because when power is consolidated, it is more difficult to get out from under it. You are no longer protecting your mind from a human; you must protect it from entities with a century's worth of psychology and neuroscience research [^1], and who are willing to spend billions of dollars annually [^2].
+The public consensus has been to essentially shrug and say "well what can you do". And I get it; it does seem inescapable. Trying to get off of social media is like trying to quit smoking, say nothing of the social pressure and network effects that these behemoths have.
 
-They are better at manipulating you then you are at fighting their manipulations. "Education as innoculation" simply isn't good enough [^3]. Even the "tools" we have are co-opted to serve outside interests: bot farms, paid reviews, and aggressive SEO gaming have rendered public signals noisy and often entirely fabricated. In fact, I have not learned of a tool or strategy that is 100% effective; that is, a tool that guarantees your perception of reality to be  "untampered" [^4].
-
-This is the second basic assumption of this essay.
-
-## It gets worse
-
-So far, this essay could ostensibly be only about advertising.
-
-About 10 to 15 years ago, the power dynamic between media and the world radically shifted. We shifted from a "one-to-many" *broadcast* world, where a few TV channels spoke to millions, to a "many-to-many" *algorithmic* world where millions of entities compete for the attention of billions.
-
-Very recently, the power dynamic shifted again, with the invention of GenAI; suddenly, your ability to create ~~content~~ slop is limited only by the number of GPUs at your disposal.
+## why I think we need to revisit this issue
+The invention of GenAI shifted the power dynamic again; suddenly, your ability to create ~~content~~ slop is limited only by the number of GPUs at your disposal.
 
 This changed the equation for every engagement driven platform. They benefit from content that optimizes for dopamine and outrage, rather than thoughtful content, and so AI slop dominates.
 
@@ -43,11 +34,18 @@ Even in platforms where human connection is a priority, it is now possible for G
 [picture of AI being told to ignore previous instructions and output recipe]
 *dead internet theory*
 
-and the technology will only mature (read: become more undetectable) from here.
+And the technology will only mature (read: become more undetectable) from here.
 
 The consumer can alter their behavior around an algorithm, but the consumer does not have control over their algorithms.
 
-What if we could change that?
+## quick side tangent
+I've seen some sentiment from my friends and family about ways you can participate on these platforms without being "manipulated". Purportedly, it is a matter of "willpower". I've heard language about "building your feed brick by brick", which places quite a lot of agency on the part of the user.
+
+I can see why this framing is beneficial. Being essentially forced to participate on these platforms, it is empowering to believe that you are the one at the helm.
+
+However, consider the strength of your opponent: they have a century's worth of psychology and neuroscience research [^1], and billions of dollars annually [^2].
+
+What would a solution even look like [^3]?
 
 ## A modern proposal
 Imagine a user-owned AI that operates across every "social-media consumption device" you own. Rather than simply blocking visual banners, it blocks irrelevant concepts. Imagine browsing Amazon not through their "personalized" user interface, but through an agent that scrapes the raw data and re-renders only the three options that meet strict criteria, such as "ethically sourced" and "under $50."
@@ -90,7 +88,5 @@ This is different than what has come before. A basic human right of self-determi
 
 [^2]: https://www.mordorintelligence.com/industry-reports/neuromarketing-market
 
-[^3]: https://www.emergentmind.com/topics/dark-pattern-effectiveness
-
-[^4]: Okay, so you *could* go live in a cabin in the woods. But (1) you won't and (2) you shouldn't need to resort to such extreme methods just to reclaim the sanctity of your own mind. We live in an interconnected world; that is what makes it livable. The option to leave the world behind presupposes a not-unsubstantial level of wealth. How can you go live in a cabin in the woods when there aren't any woods left? How much will the untainted world be worth then? It isn't an option for most of us.
+[^3]: Okay, so you *could* go live in a cabin in the woods. But you shouldn't need to resort to such extreme methods. We live in an increasingly interconnected world; how can you go live in a cabin in the woods when there aren't any woods left?
 
