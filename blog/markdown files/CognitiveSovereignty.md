@@ -7,7 +7,7 @@ title: template
 
 
 ## TLDR:
-Everything's trying to manipulate you and you don't have the tools to stop them. But we can make them.
+Its weird how normalized hyper-specific advertising is. It is even weirder that there isn't really an "opt-out" button anymore.
 
 ## What I mean by "Everything's trying to get you"
 Okay, "everything" might be an exaggeration, but it's not much of one:
