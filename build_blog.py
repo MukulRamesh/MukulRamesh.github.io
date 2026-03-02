@@ -33,9 +33,10 @@ from rich.panel import Panel
 # Initialize Rich console for pretty output (with legacy Windows support)
 console = Console(legacy_windows=False, force_terminal=True)
 
-# Configure markdown-it with footnote support
+# Configure markdown-it with footnote and strikethrough support
 md = MarkdownIt('commonmark', {'breaks': True, 'html': True})
 md.enable('table')
+md.enable('strikethrough')
 md.use(footnote_plugin)
 
 
@@ -459,6 +460,11 @@ def render_post_html(post: BlogPost) -> str:
 
         .blog-content a:hover {{
             color: #8B6F47;
+        }}
+
+        .blog-content s {{
+            text-decoration: line-through;
+            opacity: 0.7;
         }}
 
         .blog-content code {{
