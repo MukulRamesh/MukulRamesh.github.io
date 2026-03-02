@@ -2,9 +2,10 @@
 layout: post
 author: Mukul Ramesh
 title: template
+
+date: 03/02/2026
 ---
 # a human in a bot world
-
 
 ## TLDR:
 hey, isnt it weird how normalized hyper-specific advertising is?
@@ -16,7 +17,7 @@ im *really* worried about the power dynamics of trying to be human in a bot domi
 maybe its time for us to leave, and let the agents do the talking.
 
 ## we dont even think its a problem anymore
-I mean, we all have stories of getting a Google ad that was scarily accurate right? you were *just* talking about your upcoming barbeque and suddenly you're getting ads for grills. Suspicious.
+We all have stories of getting a Google ad that was scarily accurate, right? you were *just* talking about your upcoming barbeque and suddenly you're getting ads for grills. Suspicious.
 
 Maybe back in 2010 that would have elicited more of a "Big Brother" feeling, but I don't really see that reaction anymore. And now, it isn't just advertising! Basically all the content I consume comes from Youtube and the other social media platforms of my choice, and I am willing to bet that most people are in the same boat as me.
 
@@ -31,8 +32,8 @@ This changed the equation for every engagement driven platform. They benefit fro
 
 Even in platforms where human connection is a priority, it is now possible for GenAI to infiltrate and pose as humans. We know this has happened before:
 
-[picture of AI being told to ignore previous instructions and output recipe]
-*dead internet theory*
+[picture of AI being told to ignore previous instructions and output poem](forgetPrevInstructions.jpg)
+*dead internet theory*.
 
 And the technology will only mature (read: become more undetectable) from here.
 
@@ -53,6 +54,10 @@ Imagine a user-owned AI that operates across every "social-media consumption dev
 This would invert the power dynamic of the modern web. Currently, marketers A/B test against our psychology. In this new paradigm, ***our*** agents A/B test against their marketing claims.
 
 I imagine a product that optimizes for the user's intent, *as the user defines it for themselves* rather than something as harmful as guessing what the user wants through a proxy like *engagement*.
+
+More importantly, this product would move the storage of sensitive information onto user's own devices *without* sacrificing any of the convieniences we have become accustomed to.
+
+It is bad enough that information brokers have a detailed dossier on me; it's worse that *I can't even see what it says!*
 
 ## im being fr rn
 The proposal for personal AI agents often sounds like science fiction, but the technical reality is already here.
@@ -83,7 +88,6 @@ This is different than what has come before. A basic human right of self-determi
 
 
 ## References
-
 [^1]: The study of persuasive advertisement began in 1895 when Harlow Gale, a psychologist at the University of Minnesota, sent out questionnaires to businesses to study how people reacted to advertisements. Soon after in 1903, Walter Dill Scott published *The Theory of Advertising* in where he argued that humans were not purely rational but were highly suggestible and influenced by emotion and imagery.
 
 [^2]: https://www.mordorintelligence.com/industry-reports/neuromarketing-market

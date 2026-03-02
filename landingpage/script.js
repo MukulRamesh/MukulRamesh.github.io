@@ -295,8 +295,9 @@ document.addEventListener('DOMContentLoaded', function () {
         cards.forEach(card => {
             const desc = card.querySelector('p');
             if (!desc) return;
-            const fullText = desc.textContent.trim();
-            desc.dataset.full = fullText;
+            // Store HTML content instead of just text to preserve links
+            const fullHTML = desc.innerHTML.trim();
+            desc.dataset.full = fullHTML;
 
             // Hide text initially (no truncation preview) - only if JS is enabled
             if (document.body.classList.contains('js-enabled')) {
@@ -322,6 +323,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // click toggles expanded state
             card.addEventListener('click', (e) => {
+                // Allow links inside the card to work normally (but not the card's own <a> wrapper)
+                const clickedLink = e.target.tagName === 'A' ? e.target : e.target.closest('a');
+                if (clickedLink && clickedLink !== card) {
+                    return;
+                }
                 e.preventDefault();
                 if (!card.classList.contains('expanded')) {
                     // Collapse all other cards first
@@ -354,34 +360,43 @@ document.addEventListener('DOMContentLoaded', function () {
                     card.classList.remove('dimmed'); // Remove dimmed from the card being expanded
                     card.classList.add('expanded');
                     const d = card.querySelector('p');
-                    const fullText = d.dataset.full;
+                    const fullContent = d.dataset.full;
 
-                    // Show the paragraph and clear current text, start typewriter effect (word by word)
+                    // Show the paragraph and clear current text
                     d.style.display = 'block';
                     d.innerHTML = '';
 
-                    // Split by words but preserve newlines
-                    const parts = fullText.split(/(\s+)/); // Split keeping whitespace
-                    let partIndex = 0;
-                    const typeSpeed = 1; // milliseconds per word (adjust for speed)
+                    // Check if content contains HTML tags (like links)
+                    const hasHTML = /<[^>]+>/.test(fullContent);
 
-                    const typeInterval = setInterval(() => {
-                        if (partIndex < parts.length) {
-                            const part = parts[partIndex];
-                            // Convert newlines to <br> tags for HTML rendering
-                            if (part.includes('\n')) {
-                                d.innerHTML += part.replace(/\n/g, '<br>');
+                    if (hasHTML) {
+                        // For content with HTML, display immediately to preserve structure
+                        // Attempting to typewrite HTML incrementally breaks link functionality
+                        d.innerHTML = fullContent;
+                    } else {
+                        // For plain text, use typewriter effect (word by word)
+                        const parts = fullContent.split(/(\s+)/); // Split keeping whitespace
+                        let partIndex = 0;
+                        const typeSpeed = 1; // milliseconds per word (adjust for speed)
+
+                        const typeInterval = setInterval(() => {
+                            if (partIndex < parts.length) {
+                                const part = parts[partIndex];
+                                // Convert newlines to <br> tags for HTML rendering
+                                if (part.includes('\n')) {
+                                    d.innerHTML += part.replace(/\n/g, '<br>');
+                                } else {
+                                    d.innerHTML += part;
+                                }
+                                partIndex++;
                             } else {
-                                d.innerHTML += part;
+                                clearInterval(typeInterval);
                             }
-                            partIndex++;
-                        } else {
-                            clearInterval(typeInterval);
-                        }
-                    }, typeSpeed);
+                        }, typeSpeed);
 
-                    // Store interval ID so we can clear it if user collapses before completion
-                    card.dataset.typeInterval = typeInterval;
+                        // Store interval ID so we can clear it if user collapses before completion
+                        card.dataset.typeInterval = typeInterval;
+                    }
 
                     card.setAttribute('aria-expanded', 'true');
                     const ind = card.querySelector('.more-indicator'); if (ind) ind.textContent = 'Show less';

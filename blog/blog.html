@@ -5,16 +5,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog - Mukul Ramesh</title>
     <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Blog listing specific styles */
+        .blog-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        .blog-header {
+            text-align: center;
+            margin-bottom: 48px;
+            padding: 24px;
+            border: 2px solid #E8D5C4;
+            border-radius: 12px;
+            background: transparent;
+        }
+
+        .blog-header h1 {
+            font-size: 3rem;
+            color: #704214;
+            margin: 0 0 16px 0;
+        }
+
+        .blog-header p {
+            font-size: 1.2rem;
+            color: #5D4037;
+            margin: 0;
+        }
+
+        .blog-posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .blog-post-card {
+            display: block;
+            background: linear-gradient(135deg, #F0E4D7 0%, #FFF8F0 100%);
+            border-radius: 12px;
+            padding: 32px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 4px 16px rgba(62, 39, 35, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #E8D5C4;
+        }
+
+        .blog-post-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(112, 66, 20, 0.2);
+        }
+
+        .blog-post-card-title {
+            font-size: 1.8rem;
+            color: #704214;
+            margin: 0 0 12px 0;
+            font-weight: 700;
+        }
+
+        .blog-post-card-meta {
+            display: flex;
+            gap: 16px;
+            color: #8B7355;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .blog-post-card-excerpt {
+            color: #5D4037;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .no-posts-message {
+            text-align: center;
+            padding: 64px 24px;
+            color: #8B7355;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .blog-container {
+                padding: 24px 16px;
+            }
+
+            .blog-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .blog-post-card {
+                padding: 24px;
+            }
+
+            .blog-post-card-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
+
 <nav class="main-navbar">
     <a href="../landingpage/home.html" id="nav-home">Home</a>
     <a href="blog.html" id="nav-blog" class="active">Blog</a>
     <a href="../toys/toys.html" id="nav-toys">Mini-Projects</a>
 </nav>
-<main>
-    <h1>Blog</h1>
-    <p>Welcome to the blog! Posts will appear here soon!</p>
+
+<main class="blog-container">
+    <header class="blog-header">
+        <h1>Blog</h1>
+        <p>Thoughts, essays, and explorations</p>
+    </header>
+
+    <div class="blog-posts-list">
+        <a href="posts/cognitive-sovereignty.html" class="blog-post-card">
+            <h2 class="blog-post-card-title">a human in a bot world</h2>
+            <div class="blog-post-card-meta">
+                <span>March 02, 2026</span>
+                <span>•</span><span>By Mukul Ramesh</span>
+            </div>
+            <p class="blog-post-card-excerpt">hey, isnt it weird how normalized hyper-specific advertising is?</p>
+        </a>
+    </div>
 </main>
+
+<footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+        <p class="contact-icons">
+            <a href="mailto:mukulplace@gmail.com" aria-label="Email">
+                <img src="../landingpage/assets/email.png" alt="Email">
+            </a>
+            <a href="https://www.linkedin.com/in/mukul-ramesh/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <img src="../landingpage/assets/linkedin.png" alt="LinkedIn">
+            </a>
+            <a href="https://github.com/mukulramesh" target="_blank" rel="noopener" aria-label="GitHub">
+                <img src="../landingpage/assets/github.png" alt="GitHub">
+            </a>
+        </p>
+        <div class="attributions">
+            <a href="https://www.flaticon.com/free-icons/email" title="email icons">Email icons created by Uniconlabs</a>
+            <span class="dot">•</span>
+            <a href="https://www.flaticon.com/free-icons/linkedin" title="linkedin icons">Linkedin icons created by Freepik</a>
+            <span class="dot">•</span>
+            <a href="https://www.flaticon.com/free-icons/github" title="github icons">Github icons created by Pixel perfect</a>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>

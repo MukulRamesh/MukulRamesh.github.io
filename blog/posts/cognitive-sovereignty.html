@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>a human in a bot world - Mukul Ramesh</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        /* Blog-specific styles */
+        .blog-post-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        .blog-header {
+            margin-bottom: 32px;
+            padding: 24px;
+            border: 2px solid #E8D5C4;
+            border-radius: 12px;
+            background: transparent;
+        }
+
+        .blog-title {
+            font-size: 2.5rem;
+            color: #704214;
+            margin: 0 0 16px 0;
+            line-height: 1.2;
+        }
+
+        .blog-meta {
+            color: #8B7355;
+            font-size: 1rem;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .blog-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .blog-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #3E2723;
+        }
+
+        .blog-content h1 {
+            display: none; /* Hide H1 since it's shown in header */
+        }
+
+        .blog-content h2 {
+            color: #704214;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            font-size: 1.8rem;
+        }
+
+        .blog-content h3 {
+            color: #5D4037;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+        }
+
+        .blog-content p {
+            margin-bottom: 20px;
+        }
+
+        .blog-content a {
+            color: #704214;
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+
+        .blog-content a:hover {
+            color: #8B6F47;
+        }
+
+        .blog-content code {
+            background: #FFF8F0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            border: 1px solid #E8D5C4;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95em;
+        }
+
+        .blog-content pre {
+            background: #FFF8F0;
+            padding: 16px;
+            border-radius: 6px;
+            border: 1px solid #E8D5C4;
+            overflow-x: auto;
+            margin: 24px 0;
+        }
+
+        .blog-content pre code {
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .blog-content blockquote {
+            border-left: 4px solid #704214;
+            margin: 24px 0;
+            padding: 16px 24px;
+            background: #FFF8F0;
+            font-style: italic;
+        }
+
+        /* Blog images */
+        .blog-content .blog-image {
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .blog-content .blog-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #E8D5C4;
+            box-shadow: 0 4px 12px rgba(62, 39, 35, 0.15);
+        }
+
+        .blog-content .blog-image figcaption {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: #8B7355;
+            font-style: italic;
+        }
+
+        .blog-content ul, .blog-content ol {
+            margin: 16px 0 16px 32px;
+        }
+
+        .blog-content li {
+            margin-bottom: 8px;
+        }
+
+        /* Footnotes styling */
+        .blog-content .footnotes {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid #E8D5C4;
+            font-size: 0.95rem;
+            color: #5D4037;
+        }
+
+        .blog-content .footnotes ol {
+            margin-left: 20px;
+        }
+
+        .blog-content sup {
+            font-size: 0.75em;
+        }
+
+        .back-to-blog {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #704214;
+            text-decoration: none;
+            padding: 8px 16px;
+            background: #FFF8F0;
+            border: 1px solid #E8D5C4;
+            border-radius: 6px;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .back-to-blog:hover {
+            background: #F0E4D7;
+            border-color: #704214;
+        }
+
+        /* Pygments syntax highlighting */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight { background: #f0f0f0; }
+.highlight .c { color: #60A0B0; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #F00 } /* Error */
+.highlight .k { color: #007020; font-weight: bold } /* Keyword */
+.highlight .o { color: #666 } /* Operator */
+.highlight .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #007020 } /* Comment.Preproc */
+.highlight .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #F00 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888 } /* Generic.Output */
+.highlight .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #04D } /* Generic.Traceback */
+.highlight .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #007020 } /* Keyword.Pseudo */
+.highlight .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #902000 } /* Keyword.Type */
+.highlight .m { color: #40A070 } /* Literal.Number */
+.highlight .s { color: #4070A0 } /* Literal.String */
+.highlight .na { color: #4070A0 } /* Name.Attribute */
+.highlight .nb { color: #007020 } /* Name.Builtin */
+.highlight .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.highlight .no { color: #60ADD5 } /* Name.Constant */
+.highlight .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.highlight .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #007020 } /* Name.Exception */
+.highlight .nf { color: #06287E } /* Name.Function */
+.highlight .nl { color: #002070; font-weight: bold } /* Name.Label */
+.highlight .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #BB60D5 } /* Name.Variable */
+.highlight .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #BBB } /* Text.Whitespace */
+.highlight .mb { color: #40A070 } /* Literal.Number.Bin */
+.highlight .mf { color: #40A070 } /* Literal.Number.Float */
+.highlight .mh { color: #40A070 } /* Literal.Number.Hex */
+.highlight .mi { color: #40A070 } /* Literal.Number.Integer */
+.highlight .mo { color: #40A070 } /* Literal.Number.Oct */
+.highlight .sa { color: #4070A0 } /* Literal.String.Affix */
+.highlight .sb { color: #4070A0 } /* Literal.String.Backtick */
+.highlight .sc { color: #4070A0 } /* Literal.String.Char */
+.highlight .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.highlight .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #4070A0 } /* Literal.String.Double */
+.highlight .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.highlight .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.highlight .sx { color: #C65D09 } /* Literal.String.Other */
+.highlight .sr { color: #235388 } /* Literal.String.Regex */
+.highlight .s1 { color: #4070A0 } /* Literal.String.Single */
+.highlight .ss { color: #517918 } /* Literal.String.Symbol */
+.highlight .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #06287E } /* Name.Function.Magic */
+.highlight .vc { color: #BB60D5 } /* Name.Variable.Class */
+.highlight .vg { color: #BB60D5 } /* Name.Variable.Global */
+.highlight .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.highlight .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.highlight .il { color: #40A070 } /* Literal.Number.Integer.Long */
+
+        .highlight {
+            background: #FFF8F0 !important;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 24px 0;
+            border: 1px solid #E8D5C4;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 768px) {
+            .blog-post-container {
+                padding: 24px 16px;
+            }
+
+            .blog-title {
+                font-size: 2rem;
+            }
+
+            .blog-content {
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="main-navbar">
+    <a href="../../landingpage/home.html" id="nav-home">Home</a>
+    <a href="../blog.html" id="nav-blog" class="active">Blog</a>
+    <a href="../../toys/toys.html" id="nav-toys">Mini-Projects</a>
+</nav>
+
+<main class="blog-post-container">
+    <a href="../blog.html" class="back-to-blog">← Back to Blog</a>
+
+    <article>
+        <header class="blog-header">
+            <h1 class="blog-title">a human in a bot world</h1>
+            <div class="blog-meta">
+                <span class="blog-meta-item"><strong>By</strong> Mukul Ramesh</span>
+                <span class="blog-meta-item">
+                    <strong>Published</strong> March 02, 2026
+                </span>
+            </div>
+        </header>
+
+        <div class="blog-content">
+            <h1>a human in a bot world</h1>
+<h2>TLDR:</h2>
+<p>hey, isnt it weird how normalized hyper-specific advertising is?</p>
+<p>its even weirder that there isn't really an &quot;opt-out&quot; button anymore. i'm a little worried about the power dynamics of that kind of thing.</p>
+<p>im <em>really</em> worried about the power dynamics of trying to be human in a bot dominated internet.</p>
+<p>maybe its time for us to leave, and let the agents do the talking.</p>
+<h2>we dont even think its a problem anymore</h2>
+<p>We all have stories of getting a Google ad that was scarily accurate, right? you were <em>just</em> talking about your upcoming barbeque and suddenly you're getting ads for grills. Suspicious.</p>
+<p>Maybe back in 2010 that would have elicited more of a &quot;Big Brother&quot; feeling, but I don't really see that reaction anymore. And now, it isn't just advertising! Basically all the content I consume comes from Youtube and the other social media platforms of my choice, and I am willing to bet that most people are in the same boat as me.</p>
+<p>It's now an unfortunate fact of life that almost everything in front of my eyes has been curated by someone I don't really trust.</p>
+<p>The public consensus has been to essentially shrug and say &quot;well what can you do&quot;. And I get it; it does seem inescapable. Trying to get off of social media is like trying to quit smoking, say nothing of the social pressure and network effects that these behemoths have.</p>
+<h2>why I think we need to revisit this issue</h2>
+<p>The invention of GenAI shifted the power dynamic again; suddenly, your ability to create ~~content~~ slop is limited only by the number of GPUs at your disposal.</p>
+<p>This changed the equation for every engagement driven platform. They benefit from content that optimizes for dopamine and outrage, rather than thoughtful content, and so AI slop dominates.</p>
+<p>Even in platforms where human connection is a priority, it is now possible for GenAI to infiltrate and pose as humans. We know this has happened before:</p>
+<p><figure class="blog-image"><img src="../assets/forgetPrevInstructions.jpg" alt="picture of AI being told to ignore previous instructions and output poem" /><figcaption>picture of AI being told to ignore previous instructions and output poem</figcaption></figure><br />
+<em>dead internet theory</em>.</p>
+<p>And the technology will only mature (read: become more undetectable) from here.</p>
+<p>The consumer can alter their behavior around an algorithm, but the consumer does not have control over their algorithms.</p>
+<h2>quick side tangent</h2>
+<p>I've seen some sentiment from my friends and family about ways you can participate on these platforms without being &quot;manipulated&quot;. Purportedly, it is a matter of &quot;willpower&quot;. I've heard language about &quot;building your feed brick by brick&quot;, which places quite a lot of agency on the part of the user.</p>
+<p>I can see why this framing is beneficial. Being essentially forced to participate on these platforms, it is empowering to believe that you are the one at the helm.</p>
+<p>However, consider the strength of your opponent: they have a century's worth of psychology and neuroscience research <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>, and are willing to spend their billions of dollars annually on protecting their interests <sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>.</p>
+<p>What would a solution even look like <sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>?</p>
+<h2>A modern proposal</h2>
+<p>Imagine a user-owned AI that operates across every &quot;social-media consumption device&quot; you own. Rather than simply blocking visual banners, it blocks irrelevant concepts. Imagine browsing Amazon not through their &quot;personalized&quot; user interface, but through an agent that scrapes the raw data and re-renders only the three options that meet strict criteria, such as &quot;ethically sourced&quot; and &quot;under $50.&quot;</p>
+<p>This would invert the power dynamic of the modern web. Currently, marketers A/B test against our psychology. In this new paradigm, <em><strong>our</strong></em> agents A/B test against their marketing claims.</p>
+<p>I imagine a product that optimizes for the user's intent, <em>as the user defines it for themselves</em> rather than something as harmful as guessing what the user wants through a proxy like <em>engagement</em>.</p>
+<p>More importantly, this product would move the storage of sensitive information onto user's own devices <em>without</em> sacrificing any of the convieniences we have become accustomed to.</p>
+<p>It is bad enough that information brokers have a detailed dossier on me; it's worse that <em>I can't even see what it says!</em></p>
+<h2>im being fr rn</h2>
+<p>The proposal for personal AI agents often sounds like science fiction, but the technical reality is already here.</p>
+<p>We are currently undergoing a massive hardware shift with the rise of the Neural Processing Unit (NPU) in consumer devices. From the Apple Neural Engine to Snapdragon processors, our laptops and phones now possess the silicon required to run quantized Small Language Models (SLMs) like Llama-3-8B or Mistral locally.</p>
+<p>Fundamentally, this product requires that the agent respects user privacy: everything needs to run on user-owned devices.</p>
+<p>Cloud-based AI is inherently a surveillance architecture, and requires sending your data to untrusted models. Local AI is a utility architecture; it brings the model to your data. This is not a service you subscribe to, but a tool you own. A pair of glasses shouldn't report what you see to a corporation.</p>
+<h2>this will totally work</h2>
+<p>Critics of this shift often point to the &quot;Adversarial Web&quot; as an economic barrier. If users deploy agents to scrape clean data, companies will likely retaliate by blocking scrapers and obfuscating information to protect their &quot;walled gardens.&quot; I believe this is a technical challenge that which is being solved at a rapid pace; web scraping technology has rapidly matured in response to the gluttenous cost of training AI.</p>
+<p>Just as websites optimized for Google's crawlers to survive the search engine era, retailers will eventually have to optimize for AI agents to capture high-intent buyers. I envision &quot;SEO for Agents&quot;: &quot;clean data&quot; APIs over visual clutter.</p>
+<p>A more ethical concern is the risk of the &quot;Echo Chamber.&quot; If an agent only shows us what we want to see, do we risk radicalization?</p>
+<p>While solipsism is a valid risk, it is arguably the lesser of two evils. The current reality is an active radicalization engine, where algorithms monetize outrage to keep users scrolling.</p>
+<p>A user-owned shield is ethically superior to a system designed for profit-driven manipulation.</p>
+<h2>it matters</h2>
+<p>Desperate and vulnerable people will always be the ones who are exploited the most.</p>
+<p>This means your kids. This means a weaker social safety net for you and your loved ones.</p>
+<p>This is different than what has come before. A basic human right of self-determination is under attack, and we should build the tools to fight back.</p>
+<h2>References</h2>
+<hr class="footnotes-sep" />
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>The study of persuasive advertisement began in 1895 when Harlow Gale, a psychologist at the University of Minnesota, sent out questionnaires to businesses to study how people reacted to advertisements. Soon after in 1903, Walter Dill Scott published <em>The Theory of Advertising</em> in where he argued that humans were not purely rational but were highly suggestible and influenced by emotion and imagery. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>https://www.mordorintelligence.com/industry-reports/neuromarketing-market <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>Okay, so you <em>could</em> go live in a cabin in the woods. But you shouldn't need to resort to such extreme methods. We live in an increasingly interconnected world; how can you go live in a cabin in the woods when there aren't any woods left? <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+        </div>
+    </article>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+        <p class="contact-icons">
+            <a href="mailto:mukulplace@gmail.com" aria-label="Email">
+                <img src="../../landingpage/assets/email.png" alt="Email">
+            </a>
+            <a href="https://www.linkedin.com/in/mukul-ramesh/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <img src="../../landingpage/assets/linkedin.png" alt="LinkedIn">
+            </a>
+            <a href="https://github.com/mukulramesh" target="_blank" rel="noopener" aria-label="GitHub">
+                <img src="../../landingpage/assets/github.png" alt="GitHub">
+            </a>
+        </p>
+        <div class="attributions">
+            <a href="https://www.flaticon.com/free-icons/email" title="email icons">Email icons created by Uniconlabs</a>
+            <span class="dot">•</span>
+            <a href="https://www.flaticon.com/free-icons/linkedin" title="linkedin icons">Linkedin icons created by Freepik</a>
+            <span class="dot">•</span>
+            <a href="https://www.flaticon.com/free-icons/github" title="github icons">Github icons created by Pixel perfect</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
