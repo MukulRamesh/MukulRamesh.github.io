@@ -55,7 +55,7 @@ This would invert the power dynamic of the modern web. Currently, marketers A/B 
 
 I imagine a product that optimizes for the user's intent, *as the user defines it for themselves* rather than something as harmful as guessing what the user wants through a proxy like *engagement*.
 
-More importantly, this product would move the storage of sensitive information onto user's own devices *without* sacrificing any of the convieniences we have become accustomed to.
+More importantly, this product would move the storage of sensitive information onto user's own devices *without* sacrificing any of the conveniences we have become accustomed to.
 
 It is bad enough that information brokers have a detailed dossier on me; it's worse that *I can't even see what it says!*
 
