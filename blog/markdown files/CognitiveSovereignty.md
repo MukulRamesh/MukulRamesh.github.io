@@ -3,7 +3,7 @@ layout: post
 author: Mukul Ramesh
 title: template
 
-date: 03/02/2026
+date: 03/26/2026
 ---
 # a human in a bot world
 
