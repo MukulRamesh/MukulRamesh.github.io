@@ -15,7 +15,7 @@ import json
 import re
 import sys
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, date
 from html import unescape
 from pathlib import Path
 from typing import Optional
@@ -154,6 +154,12 @@ def parse_date(date_str: Optional[str], filepath: Path) -> datetime:
     """
     if not date_str:
         return datetime.fromtimestamp(filepath.stat().st_mtime)
+
+    # Handle if YAML parser already converted to date/datetime object
+    if isinstance(date_str, datetime):
+        return date_str
+    if isinstance(date_str, date):
+        return datetime.combine(date_str, datetime.min.time())
 
     # Try MM/DD/YYYY format
     for fmt in ['%m/%d/%Y', '%Y-%m-%d', '%B %d, %Y']:
