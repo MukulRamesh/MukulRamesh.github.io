@@ -652,26 +652,122 @@ def render_post_html(post: BlogPost) -> str:
     return html
 
 
-def render_listing_html(posts: list[BlogPost]) -> str:
+def get_custom_pages(custom_dir: Path) -> list[dict]:
+    """
+    Scan custom directory for HTML files and return metadata.
+
+    Looks for metadata.json in the custom directory for rich metadata,
+    otherwise falls back to extracting title from filename.
+
+    Returns:
+        List of dicts with keys: filename, title, excerpt, url, date (optional)
+    """
+    if not custom_dir.exists():
+        return []
+
+    custom_pages = []
+    metadata = {}
+
+    # Try to load metadata.json if it exists
+    metadata_file = custom_dir / 'metadata.json'
+    if metadata_file.exists():
+        try:
+            metadata = json.loads(metadata_file.read_text(encoding='utf-8'))
+        except Exception as e:
+            console.print(f"[yellow]Warning: Could not load custom metadata: {e}[/yellow]")
+
+    # Scan for HTML files
+    for html_file in sorted(custom_dir.glob('*.html')):
+        file_metadata = metadata.get(html_file.name, {})
+
+        # Extract title (from metadata or filename)
+        title = file_metadata.get('title', html_file.stem.replace('-', ' ').title())
+
+        # Extract excerpt if provided
+        excerpt = file_metadata.get('excerpt', 'Interactive blog post with custom elements')
+
+        # Extract author if provided
+        author = file_metadata.get('author', '')
+
+        # Extract date if provided (for sorting with regular posts)
+        date_str = file_metadata.get('date')
+        date_obj = None
+        if date_str:
+            try:
+                date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+            except ValueError:
+                pass
+
+        custom_pages.append({
+            'filename': html_file.name,
+            'title': title,
+            'excerpt': excerpt,
+            'author': author,
+            'url': f'custom/{html_file.name}',
+            'date': date_obj
+        })
+
+    return custom_pages
+
+
+def render_listing_html(posts: list[BlogPost], custom_dir: Optional[Path] = None) -> str:
     """Generate HTML for blog listing page"""
 
-    # Sort posts by date (newest first)
-    sorted_posts = sorted(posts, key=lambda p: p.date, reverse=True)
+    # Get custom pages if custom directory is provided
+    custom_pages = get_custom_pages(custom_dir) if custom_dir else []
+
+    # Combine regular posts and custom pages into unified list
+    all_posts = []
+
+    # Add regular blog posts
+    for post in posts:
+        all_posts.append({
+            'type': 'regular',
+            'title': post.title,
+            'url': f'posts/{post.slug}.html',
+            'date': post.date,
+            'author': post.author,
+            'excerpt': post.excerpt
+        })
+
+    # Add custom pages
+    for page in custom_pages:
+        all_posts.append({
+            'type': 'interactive',
+            'title': page['title'],
+            'url': page['url'],
+            'date': page.get('date'),
+            'author': page.get('author', ''),
+            'excerpt': page['excerpt']
+        })
+
+    # Sort all posts by date (newest first), handling None dates
+    all_posts.sort(key=lambda p: p['date'] if p['date'] else datetime.min, reverse=True)
 
     # Generate post cards
-    if sorted_posts:
+    if all_posts:
         post_cards = []
-        for post in sorted_posts:
-            date_str = post.date.strftime('%B %d, %Y')
-            author_html = f'<span>•</span><span>By {post.author}</span>' if post.author else ''
+        for item in all_posts:
+            # Format date if available
+            date_str = item['date'].strftime('%B %d, %Y') if item['date'] else ''
+            date_html = f'<span>{date_str}</span>' if date_str else ''
 
-            card = f"""        <a href="posts/{post.slug}.html" class="blog-post-card">
-            <h2 class="blog-post-card-title">{post.title}</h2>
+            # Format author
+            author_html = f'<span>•</span><span>By {item["author"]}</span>' if item['author'] else ''
+
+            # Add interactive badge for custom posts
+            badge = ' <span class="interactive-badge">Interactive</span>' if item['type'] == 'interactive' else ''
+
+            # Add special class for interactive posts
+            card_class = 'blog-post-card interactive-post-card' if item['type'] == 'interactive' else 'blog-post-card'
+
+            card = f"""        <a href="{item['url']}" class="{card_class}">
+            <h2 class="blog-post-card-title">{item['title']}{badge}</h2>
             <div class="blog-post-card-meta">
-                <span>{date_str}</span>
+                {date_html}
                 {author_html}
             </div>
-            <p class="blog-post-card-excerpt">{post.excerpt}</p>
+            <p class="blog-post-card-excerpt">{item['excerpt']}</p>
         </a>"""
             post_cards.append(card)
 
@@ -770,6 +866,19 @@ def render_listing_html(posts: list[BlogPost]) -> str:
             font-size: 1.2rem;
         }}
 
+        /* Interactive posts styling */
+        .interactive-badge {{
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #8B6F47;
+            background: #FFF8F0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            border: 1px solid #E8D5C4;
+        }}
+
         @media (max-width: 768px) {{
             .blog-container {{
                 padding: 24px 16px;
@@ -862,6 +971,7 @@ def main():
     base_dir = Path(__file__).parent
     markdown_dir = base_dir / 'blog' / 'markdown files'
     posts_dir = base_dir / 'blog' / 'posts'
+    custom_dir = base_dir / 'blog' / 'custom'
     listing_file = base_dir / 'blog' / 'blog.html'
     cache_file = base_dir / '.blog_cache.json'
 
@@ -944,7 +1054,7 @@ def main():
     # Generate listing page (always regenerate)
     if posts:
         try:
-            listing_html = render_listing_html(posts)
+            listing_html = render_listing_html(posts, custom_dir)
             listing_file.write_text(listing_html, encoding='utf-8')
             console.print(f"[green]OK[/green] Generated: blog.html (listing page)")
         except Exception as e:

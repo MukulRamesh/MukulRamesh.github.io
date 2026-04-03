@@ -110,6 +110,44 @@ No CSS preprocessor or framework. Uses:
 
 **Image Handling**: Links to image files automatically convert to `<img>` tags with figure wrapper. Images without path prefix are assumed to be in `../assets/` relative to post HTML.
 
+## Custom HTML Blog Posts
+
+For blog posts requiring custom JavaScript or complex HTML (e.g., interactive visualizations), use the `blog/custom/` directory:
+
+**Directory**: `blog/custom/`
+**Protection**: Build script never touches this directory - files are completely safe from overwrites
+**Listing Integration**: Interactive posts appear alongside regular posts in `blog.html`, sorted by date
+
+### Adding a Custom Post
+
+1. Create HTML file in `blog/custom/` (e.g., `interactive-viz.html`)
+2. Use consistent structure:
+   - Include navbar with proper relative paths (`../../landingpage/home.html`, `../blog.html`)
+   - Link to `../styles.css` for site styling
+   - Link back to blog listing: `<a href="../blog.html">Back to Blog</a>`
+3. Run `python build_blog.py` to regenerate listing page with custom post included
+
+### Optional: Rich Metadata
+
+Create `blog/custom/metadata.json` for better display in listing:
+```json
+{
+  "my-custom-post.html": {
+    "title": "Interactive Visualization",
+    "author": "Mukul Ramesh",
+    "excerpt": "A custom blog post with interactive JavaScript elements",
+    "date": "2026-04-03"
+  }
+}
+```
+
+Without metadata file, title is derived from filename (kebab-case → Title Case).
+
+**Interactive Post Styling**: Posts from `blog/custom/` display with:
+- "Interactive" badge in listing for subtle distinction
+- Same card styling and date/author format as regular posts
+- Integrated chronologically with regular posts
+
 ## Deployment
 
 GitHub Pages serves from repository root. No build step required on push - blog HTML is pre-generated and committed.

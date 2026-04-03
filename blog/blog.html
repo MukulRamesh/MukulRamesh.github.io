@@ -87,6 +87,19 @@
             font-size: 1.2rem;
         }
 
+        /* Interactive posts styling */
+        .interactive-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #8B6F47;
+            background: #FFF8F0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            border: 1px solid #E8D5C4;
+        }
+
         @media (max-width: 768px) {
             .blog-container {
                 padding: 24px 16px;
@@ -121,6 +134,14 @@
     </header>
 
     <div class="blog-posts-list">
+        <a href="custom/prompt-engineering-guide.html" class="blog-post-card interactive-post-card">
+            <h2 class="blog-post-card-title">Effective Prompt Engineering: A Concise Guide <span class="interactive-badge">Interactive</span></h2>
+            <div class="blog-post-card-meta">
+                <span>April 03, 2026</span>
+                <span>•</span><span>By Mukul Ramesh</span>
+            </div>
+            <p class="blog-post-card-excerpt">A guide to prompt engineering.</p>
+        </a>
         <a href="posts/cognitive-sovereignty.html" class="blog-post-card">
             <h2 class="blog-post-card-title">a human in a bot world</h2>
             <div class="blog-post-card-meta">

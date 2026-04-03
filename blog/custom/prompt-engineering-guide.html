@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Effective Prompt Engineering - Mukul Ramesh</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .guide-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 12px;
+        }
+
+        .guide-content {
+            flex: 1;
+            padding: 32px 0 32px 12px;
+            max-width: 1100px;
+            margin: 0;
+        }
+
+        .guide-hero {
+            margin-bottom: 48px;
+        }
+
+        .guide-hero h1 {
+            color: #704214;
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .tldr-section {
+            background: #FFF8F0;
+            border: 2px solid #704214;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 48px;
+        }
+
+        .tldr-section h2 {
+            color: #704214;
+            margin: 0 0 16px 0;
+            font-size: 1.4rem;
+        }
+
+        .tldr-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tldr-section li {
+            padding: 8px 0 8px 24px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .tldr-section li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #704214;
+            font-weight: bold;
+        }
+
+        .tldr-section a {
+            color: #3E2723;
+            text-decoration: none;
+            display: block;
+        }
+
+        .tldr-section a:hover {
+            color: #704214;
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #704214;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Table of Contents */
+        .guide-toc {
+            position: fixed;
+            right: 20px;
+            top: 100px;
+            width: 280px;
+            background: rgba(255, 248, 240, 0.98);
+            border: 2px solid #E8D5C4;
+            border-radius: 12px;
+            padding: 20px;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            box-shadow: 0 4px 12px rgba(112, 66, 20, 0.15);
+            z-index: 100;
+        }
+
+        .toc-header {
+            margin-bottom: 16px;
+        }
+
+        .toc-header h3 {
+            color: #704214;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-section {
+            margin-bottom: 12px;
+        }
+
+        .toc-link {
+            display: block;
+            color: #3E2723;
+            text-decoration: none;
+            padding: 6px 8px;
+            border-radius: 6px;
+            transition: background 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .toc-link:hover {
+            background: #E8D5C4;
+        }
+
+        .toc-link.active {
+            background: #704214;
+            color: #FFF8F0;
+            font-weight: bold;
+        }
+
+        .toc-subsections {
+            list-style: none;
+            padding-left: 16px;
+            margin-top: 8px;
+        }
+
+        .toc-subsections .toc-link {
+            font-size: 0.85rem;
+        }
+
+        .toc-toggle {
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: #704214;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 101;
+            font-size: 1.2rem;
+        }
+
+        /* Sections */
+        .guide-section {
+            margin: 32px 0;
+            padding: 24px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #E8D5C4;
+            scroll-margin-top: 80px;
+        }
+
+        .section-header {
+            padding: 0;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            color: #704214;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .section-content {
+            display: block;
+        }
+
+        /* Subsections */
+        .guide-subsection {
+            margin: 32px 0;
+            padding-bottom: 32px;
+            border-bottom: 1px solid #E8D5C4;
+            scroll-margin-top: 80px;
+        }
+
+        .guide-subsection:last-child {
+            border-bottom: none;
+        }
+
+        .subsection-header h3 {
+            color: #704214;
+            margin: 0 0 12px 0;
+            font-size: 1.4rem;
+        }
+
+        .subsection-description {
+            color: #3E2723;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .example-scenario {
+            margin: 20px 0 12px 0;
+            padding: 12px 16px;
+            background: #F5E6D3;
+            border-left: 4px solid #704214;
+            border-radius: 4px;
+        }
+
+        .example-scenario strong {
+            color: #704214;
+        }
+
+        .prompt-wrapper {
+            margin: 16px 0;
+            position: relative;
+        }
+
+        .prompt-label {
+            font-weight: bold;
+            color: #704214;
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copy-btn {
+            background: #704214;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #8B6F47;
+        }
+
+        .copy-btn.copied {
+            background: #2E7D32;
+        }
+
+        .prompt-wrapper pre {
+            background: #2E2E2E;
+            color: #F8F8F2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 0;
+            line-height: 1.6;
+            border: 2px solid #704214;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .prompt-wrapper code {
+            font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .example-note {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(112, 66, 20, 0.05);
+            border-left: 4px solid #704214;
+            border-radius: 4px;
+        }
+
+        .example-note strong {
+            color: #704214;
+        }
+
+        .comparison-box {
+            margin: 16px 0;
+            padding: 16px;
+            background: #FFF8F0;
+            border: 2px solid #E8D5C4;
+            border-radius: 8px;
+        }
+
+        .comparison-box pre {
+            background: #F5E6D3;
+            color: #3E2723;
+            padding: 16px;
+            border-radius: 6px;
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Resources Section */
+        .resources-section {
+            margin: 48px 0;
+            padding: 24px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #E8D5C4;
+        }
+
+        .resources-section h2 {
+            color: #704214;
+            margin-top: 0;
+        }
+
+        .resources-section ul {
+            padding-left: 24px;
+        }
+
+        .resources-section a {
+            color: #704214;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .guide-toc {
+                right: -320px;
+                transition: right 0.3s;
+            }
+
+            .guide-toc.open {
+                right: 0;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .toc-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .guide-hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.4rem;
+            }
+
+            .subsection-header h3 {
+                font-size: 1.2rem;
+            }
+
+            .guide-toc {
+                width: calc(100% - 40px);
+                max-width: 400px;
+                right: -100vw;
+                top: 64px;
+                max-height: calc(100vh - 64px);
+            }
+
+            .guide-toc.open {
+                right: 0;
+            }
+
+            .prompt-wrapper pre {
+                padding: 16px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="main-navbar">
+    <a href="../../landingpage/home.html" id="nav-home">Home</a>
+    <a href="../blog.html" id="nav-blog" class="active">Blog</a>
+    <a href="../../toys/toys.html" id="nav-toys">Mini-Projects</a>
+</nav>
+
+<button class="toc-toggle" onclick="toggleTOC()">☰</button>
+
+<div class="guide-container">
+    <nav class="guide-toc" id="guide-toc">
+        <div class="toc-header">
+            <h3>Contents</h3>
+        </div>
+        <ul class="toc-list">
+            <li class="toc-section">
+                <a href="#section-1" class="toc-link">1. Architecture & Context</a>
+                <ul class="toc-subsections">
+                    <li><a href="#section-1-1" class="toc-link">1.1 Front-Load</a></li>
+                    <li><a href="#section-1-2" class="toc-link">1.2 Context & Persona</a></li>
+                    <li><a href="#section-1-3" class="toc-link">1.3 Framework</a></li>
+                </ul>
+            </li>
+            <li class="toc-section">
+                <a href="#section-2" class="toc-link">2. Precision & Output</a>
+                <ul class="toc-subsections">
+                    <li><a href="#section-2-1" class="toc-link">2.1 Be Direct</a></li>
+                    <li><a href="#section-2-2" class="toc-link">2.2 Structured Output</a></li>
+                    <li><a href="#section-2-3" class="toc-link">2.3 Show Examples</a></li>
+                    <li><a href="#section-2-4" class="toc-link">2.4 Focus Positive</a></li>
+                </ul>
+            </li>
+            <li class="toc-section">
+                <a href="#section-3" class="toc-link">3. Logic & Accuracy</a>
+                <ul class="toc-subsections">
+                    <li><a href="#section-3-1" class="toc-link">3.1 Step-by-Step</a></li>
+                    <li><a href="#section-3-2" class="toc-link">3.2 Mitigate Hallucinations</a></li>
+                    <li><a href="#section-3-3" class="toc-link">3.3 Self-Consistency</a></li>
+                </ul>
+            </li>
+            <li class="toc-section">
+                <a href="#section-4" class="toc-link">4. Advanced Tactics</a>
+                <ul class="toc-subsections">
+                    <li><a href="#section-4-1" class="toc-link">4.1 Iterate</a></li>
+                    <li><a href="#section-4-2" class="toc-link">4.2 API Parameters</a></li>
+                    <li><a href="#section-4-3" class="toc-link">4.3 Meta-Prompts</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="guide-content">
+        <a href="../blog.html" class="back-link">← Back to Blog</a>
+
+        <div class="guide-hero">
+            <h1>Effective Prompt Engineering: A Concise Guide</h1>
+        </div>
+
+        <div class="tldr-section">
+            <h2>TL;DR: Key Techniques</h2>
+            <ul>
+                <li><a href="#section-1-1">Put instructions first, then separate data with delimiters (###)</a></li>
+                <li><a href="#section-1-2">Assign the AI a specific role and provide relevant context</a></li>
+                <li><a href="#section-1-3">Use structured frameworks: Instruction → Context → Input → Output</a></li>
+                <li><a href="#section-2-1">Be explicit about format, tone, and length requirements</a></li>
+                <li><a href="#section-2-2">Request structured output (tables, JSON, Markdown)</a></li>
+                <li><a href="#section-2-3">Show examples of desired input-output format</a></li>
+                <li><a href="#section-2-4">Use positive instructions ("do X") over negative ("don't do Y")</a></li>
+                <li><a href="#section-3-1">Ask for step-by-step reasoning on complex tasks</a></li>
+                <li><a href="#section-3-2">Constrain responses to provided documents to prevent hallucinations</a></li>
+                <li><a href="#section-3-3">Generate multiple solutions and compare them</a></li>
+                <li><a href="#section-4-1">Iterate on prompts based on results</a></li>
+                <li><a href="#section-4-2">Adjust temperature: low (0.1) for facts, high (0.7) for creativity</a></li>
+                <li><a href="#section-4-3">Ask the AI to help design complex prompts (meta-prompting)</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Architecture and Context -->
+        <div class="guide-section" id="section-1">
+            <div class="section-header">
+                <h2>1. Architecture and Context</h2>
+            </div>
+            <div class="section-content" id="content-1">
+
+                <!-- Subsection 1.1 -->
+                <div class="guide-subsection" id="section-1-1">
+                    <div class="subsection-header">
+                        <h3>1.1 Front-Load and Isolate</h3>
+                    </div>
+                    <p class="subsection-description">Place the most important information at the beginning of your prompt. Use delimiters like "###" or "---" to clearly separate instructions from data.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> Drafting a quick, clear email about important academic deadlines.</p>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-1-1')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-1-1"><code>Summarize the following academic calendar dates into a brief email for undergraduate students. Place the most important deadlines at the top.
+###
+Spring Break: Mar 10-14
+Priority Registration Opens: Apr 1
+Drop/Add Deadline: Apr 15
+Commencement: May 20
+</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> The instruction comes first, followed by clear data separation. The model knows exactly what to do before processing the dates.</p>
+                    </div>
+                </div>
+
+                <!-- Subsection 1.2 -->
+                <div class="guide-subsection" id="section-1-2">
+                    <div class="subsection-header">
+                        <h3>1.2 Establish Context and Persona</h3>
+                    </div>
+                    <p class="subsection-description">Give the AI a role and background context. This helps shape the tone, style, and approach of the response.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> Communicating sensitive academic standing information to a student.</p>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-1-2')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-1-2"><code>Act as a compassionate but firm University Registrar.
+
+Context: A student's GPA has fallen below 2.0, placing them on academic probation for the upcoming semester.
+
+Write a 3-paragraph letter explaining their probation status, the necessary steps to appeal or register for academic coaching, and the support resources available to them.</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> The persona ("compassionate but firm Registrar") and specific context ensure the tone is appropriate for the sensitive situation.</p>
+                    </div>
+                </div>
+
+                <!-- Subsection 1.3 -->
+                <div class="guide-subsection" id="section-1-3">
+                    <div class="subsection-header">
+                        <h3>1.3 Define the Framework</h3>
+                    </div>
+                    <p class="subsection-description">Create a structured template with clear sections: Instruction, Context, Input Data, and Output format. This ensures consistency and clarity.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> Processing incoming transfer credit requests based on institutional policy.</p>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-1-3')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-1-3"><code>Instruction: Evaluate the transfer credit request based on the provided policy.
+
+Context: Students need a 'C' or higher for credits to transfer from out-of-state community colleges. 'C-' grades are not accepted.
+
+Input Data: A student completed 'Intro to Psychology' at Generic Community College with a grade of 'C-'.
+
+Output: [State 'Approved' or 'Denied', followed by a one-sentence justification explaining the decision based on the policy.]</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> The clear framework (Instruction → Context → Input → Output) eliminates ambiguity and ensures the model follows the exact process needed.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Section 2: Precision and Output Control -->
+        <div class="guide-section" id="section-2">
+            <div class="section-header">
+                <h2>2. Precision and Output Control</h2>
+            </div>
+            <div class="section-content" id="content-2">
+
+                <!-- Subsection 2.1 -->
+                <div class="guide-subsection" id="section-2-1">
+                    <div class="subsection-header">
+                        <h3>2.1 Be Direct and Explicit</h3>
+                    </div>
+                    <p class="subsection-description">State exactly what you want in clear, actionable language. Specify format, tone, length, and structure explicitly.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> Creating a standard operating procedure (SOP) or checklist for staff.</p>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-2-1')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-2-1"><code>Create a graduation audit checklist for the Biology B.S. program.
+
+- List the core science requirements.
+- List the general education credit requirements.
+- Detail the final graduation application steps for the student.
+
+Keep the tone professional, use bullet points, and limit the output to exactly one page (under 400 words).</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> Explicit formatting instructions (bullet points, professional tone, word limit) ensure the output meets exact specifications.</p>
+                    </div>
+                </div>
+
+                <!-- Subsection 2.2 -->
+                <div class="guide-subsection" id="section-2-2">
+                    <div class="subsection-header">
+                        <h3>2.2 Request Structured Output</h3>
+                    </div>
+                    <p class="subsection-description">Specify the exact output format you need: tables, JSON, Markdown, lists, etc. Define column names, field types, and structure explicitly.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> Organizing new course proposals for the curriculum committee.</p>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-2-2')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-2-2"><code>Extract the new course proposals from the provided meeting minutes and format the output as a Markdown table.
+
+The table must have the following exact columns: Course Code, Course Title, Credit Hours, and Prerequisites.
+
+[Insert meeting minutes here]</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> Specifying the exact format (Markdown table) and column structure ensures the output can be directly used in documentation.</p>
+                    </div>
+                </div>
+
+                <!-- Subsection 2.3 -->
+                <div class="guide-subsection" id="section-2-3">
+                    <div class="subsection-header">
+                        <h3>2.3 Show, Don't Just Tell (Give Examples)</h3>
+                    </div>
+                    <p class="subsection-description">Provide concrete examples of the input-output format you want. Few-shot prompting dramatically improves consistency.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> Standardizing the formatting of student names for diploma printing.</p>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-2-3')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-2-3"><code>Format the following list of student names into 'Last Name, First Name Middle Initial.' for our diploma vendor.
+
+Example 1: Input: John David Smith → Output: Smith, John D.
+Example 2: Input: Maria Elena Garcia → Output: Garcia, Maria E.
+
+Input Data:
+- William Arthur Pendelton
+- Sarah Jane O'Connor
+- Michael T. Chang</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> The examples demonstrate exactly how to handle middle names and special characters (like O'Connor), ensuring correct formatting.</p>
+                    </div>
+                </div>
+
+                <!-- Subsection 2.4 -->
+                <div class="guide-subsection" id="section-2-4">
+                    <div class="subsection-header">
+                        <h3>2.4 Focus on the Positive</h3>
+                    </div>
+                    <p class="subsection-description">Tell the model what TO do, not what NOT to do. Positive instructions are clearer and more effective than negative constraints.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> Writing instructions for how to request an official transcript.</p>
+                    </div>
+
+                    <div class="comparison-box">
+                        <p><strong>❌ Bad Example:</strong></p>
+                        <pre><code>"Don't use academic jargon and don't tell them to call the office."</code></pre>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>✓ Good Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-2-4')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-2-4"><code>Write an FAQ response for ordering official transcripts.
+
+Use clear, active verbs and a helpful tone. Instruct students to use the National Student Clearinghouse portal and inform them to expect a 3-5 business day processing time.</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> Positive framing ("use clear verbs") is more actionable than negative constraints ("don't use jargon"), leading to better results.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Section 3: Logic and Accuracy -->
+        <div class="guide-section" id="section-3">
+            <div class="section-header">
+                <h2>3. Logic and Accuracy</h2>
+            </div>
+            <div class="section-content" id="content-3">
+
+                <!-- Subsection 3.1 -->
+                <div class="guide-subsection" id="section-3-1">
+                    <div class="subsection-header">
+                        <h3>3.1 Force Step-by-Step Reasoning</h3>
+                    </div>
+                    <p class="subsection-description">For complex calculations or decisions, explicitly ask the model to show its work step-by-step before providing the final answer.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> Calculating a complex tuition refund based on the university's withdrawal schedule.</p>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-3-1')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-3-1"><code>A student withdrew from all classes during Week 4 of a 16-week semester. The total tuition paid was $5,000.
+
+Our refund policy is:
+- Week 1-2 (100%)
+- Week 3 (50%)
+- Week 4 (25%)
+- Week 5+ (0%)
+
+Think step-by-step to determine the student's exact refund amount. Explain the calculation rules applied before giving the final dollar amount.</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> The phrase "Think step-by-step" triggers chain-of-thought reasoning, dramatically improving accuracy for mathematical and logical tasks.</p>
+                    </div>
+                </div>
+
+                <!-- Subsection 3.2 -->
+                <div class="guide-subsection" id="section-3-2">
+                    <div class="subsection-header">
+                        <h3>3.2 Mitigate Hallucinations</h3>
+                    </div>
+                    <p class="subsection-description">Ground responses in provided documents. Instruct the model to cite sources and admit when information is not available rather than inventing answers.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> Creating an AI assistant to answer student questions based ONLY on the student handbook.</p>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-3-2')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-3-2"><code>Answer the student's question about the 'Medical Leave of Absence Policy' using ONLY the text provided below.
+
+If the exact answer is not contained in the text, reply exactly with: "I do not have enough information to answer that based on the provided handbook."
+
+If you find the answer, include an inline citation quoting the exact section number.
+
+[Insert handbook text here]</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> The explicit constraint ("ONLY the text provided") and fallback response prevent the model from making up policy information.</p>
+                    </div>
+                </div>
+
+                <!-- Subsection 3.3 -->
+                <div class="guide-subsection" id="section-3-3">
+                    <div class="subsection-header">
+                        <h3>3.3 Use Self-Consistency</h3>
+                    </div>
+                    <p class="subsection-description">For complex reasoning, ask the model to generate multiple interpretations or solutions, then compare and select the best one.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> Evaluating a potentially tricky FERPA scenario.</p>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-3-3')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-3-3"><code>Generate three different interpretations of whether releasing a student's graduation year to a local employer violates FERPA, based on our directory information policy.
+
+Then, compare the three interpretations, point out any logical flaws, and conclude which interpretation is the most legally and practically sound.</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> Generating multiple perspectives helps catch edge cases and logical errors, leading to more robust decisions on complex policy questions.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Section 4: Iteration and Advanced Tactics -->
+        <div class="guide-section" id="section-4">
+            <div class="section-header">
+                <h2>4. Iteration and Advanced Tactics</h2>
+            </div>
+            <div class="section-content" id="content-4">
+
+                <!-- Subsection 4.1 -->
+                <div class="guide-subsection" id="section-4-1">
+                    <div class="subsection-header">
+                        <h3>4.1 Iterate Constantly</h3>
+                    </div>
+                    <p class="subsection-description">Rarely is the first prompt perfect. Refine your prompts based on output, adding constraints, examples, or formatting as needed.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> Refining an initial draft that missed the mark. Initial prompt generated a long email that included unnecessary information about graduate students.</p>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>Follow-up Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-4-1')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-4-1"><code>This is a good start, but make the email 50% shorter.
+
+Remove the section about graduate students, as this is only for undergrads, and put the actual registration deadlines in bold bullet points at the very top of the email.</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> Follow-up prompts that specify exact changes ("50% shorter", "bold bullet points") allow you to quickly converge on the desired output.</p>
+                    </div>
+                </div>
+
+                <!-- Subsection 4.2 -->
+                <div class="guide-subsection" id="section-4-2">
+                    <div class="subsection-header">
+                        <h3>4.2 Adjust API Parameters</h3>
+                    </div>
+                    <p class="subsection-description">When using AI APIs, adjust temperature and other parameters based on your task. Low temperature (0.0-0.3) for factual tasks, higher (0.7-0.9) for creative tasks.</p>
+
+                    <div class="prompt-wrapper">
+                        <pre><code><strong>Factual/Policy Tasks (Temperature: 0.1)</strong>
+- Interpreting academic policies
+- Calculating tuition refunds
+- Evaluating transfer credits
+- Answering handbook questions
+
+<strong>Creative Tasks (Temperature: 0.7)</strong>
+- Writing welcome emails
+- Creating event flyers
+- Brainstorming program names
+- Drafting engaging social media posts
+
+<strong>API Playground Tip:</strong>
+Most AI playgrounds let you adjust the "temperature" slider.
+- Lower = More predictable, factual, consistent
+- Higher = More creative, diverse, exploratory</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this matters:</strong> The same prompt can produce very different results depending on temperature. Match the parameter to your use case for optimal results.</p>
+                    </div>
+                </div>
+
+                <!-- Subsection 4.3 -->
+                <div class="guide-subsection" id="section-4-3">
+                    <div class="subsection-header">
+                        <h3>4.3 Reverse-Engineer Prompts</h3>
+                    </div>
+                    <p class="subsection-description">When unsure how to structure a complex prompt, ask the AI to help you design the prompt itself by asking clarifying questions first.</p>
+
+                    <div class="example-scenario">
+                        <p><strong>Scenario:</strong> You want the AI to help you build an automated workflow for evaluating graduation requirements, but you aren't sure how to prompt it.</p>
+                    </div>
+
+                    <div class="prompt-wrapper">
+                        <div class="prompt-label">
+                            <span>Meta-Prompt:</span>
+                            <button class="copy-btn" onclick="copyExample(this, 'prompt-4-3')">📋 Copy</button>
+                        </div>
+                        <pre id="prompt-4-3"><code>I want to create a highly accurate AI workflow to help my staff review graduation applications against our degree requirements.
+
+Act as an expert prompt engineer. Ask me up to 5 clarifying questions about our registrar office processes, our SIS (Student Information System), and our current pain points.
+
+Once I answer, generate the perfect, structured master prompt that I can use for this task.</code></pre>
+                    </div>
+
+                    <div class="example-note">
+                        <p><strong>Why this works:</strong> Meta-prompting (prompting about prompting) helps you discover the right structure and details needed for complex workflows you haven't designed before.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Resources Section -->
+        <div class="resources-section">
+            <h2>Verification Resources</h2>
+            <p>To verify prompt engineering best practices and explore model behaviors further, refer to these official developer resources:</p>
+            <ul>
+                <li><a href="https://ai.google.dev/gemini-api/docs/prompting-intro" target="_blank" rel="noopener">Google's Prompting Guide 101</a></li>
+                <li><a href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener">OpenAI's Official Prompt Engineering Guide</a></li>
+            </ul>
+        </div>
+
+    </main>
+</div>
+
+<footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+        <p class="contact-icons">
+            <a href="mailto:mukulplace@gmail.com" aria-label="Email">
+                <img src="../../landingpage/assets/email.png" alt="Email">
+            </a>
+            <a href="https://www.linkedin.com/in/mukul-ramesh/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <img src="../../landingpage/assets/linkedin.png" alt="LinkedIn">
+            </a>
+            <a href="https://github.com/mukulramesh" target="_blank" rel="noopener" aria-label="GitHub">
+                <img src="../../landingpage/assets/github.png" alt="GitHub">
+            </a>
+        </p>
+        <div class="attributions">
+            <a href="https://www.flaticon.com/free-icons/email" title="email icons">Email icons created by Uniconlabs</a>
+            <span class="dot">•</span>
+            <a href="https://www.flaticon.com/free-icons/linkedin" title="linkedin icons">Linkedin icons created by Freepik</a>
+            <span class="dot">•</span>
+            <a href="https://www.flaticon.com/free-icons/github" title="github icons">Github icons created by Pixel perfect</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Copy to Clipboard
+async function copyExample(button, elementId) {
+    const codeElement = document.getElementById(elementId);
+    const text = codeElement.textContent;
+
+    try {
+        await navigator.clipboard.writeText(text);
+
+        const originalHTML = button.innerHTML;
+        button.innerHTML = '✓ Copied!';
+        button.classList.add('copied');
+
+        setTimeout(() => {
+            button.innerHTML = originalHTML;
+            button.classList.remove('copied');
+        }, 2000);
+    } catch (err) {
+        console.error('Failed to copy:', err);
+    }
+}
+
+// TOC Active State (Scroll Spy)
+function updateTOCActive() {
+    const subsections = document.querySelectorAll('.guide-subsection');
+    const tocLinks = document.querySelectorAll('.toc-link');
+
+    let currentSection = null;
+    subsections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 150 && rect.bottom >= 150) {
+            currentSection = section.id;
+        }
+    });
+
+    tocLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && currentSection && href === `#${currentSection}`) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
+// TOC Mobile Toggle
+function toggleTOC() {
+    const toc = document.getElementById('guide-toc');
+    toc.classList.toggle('open');
+}
+
+// Smooth Scroll for TOC Links and TLDR Links
+document.querySelectorAll('.toc-link, .tldr-section a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Close mobile TOC
+            if (window.innerWidth <= 1400) {
+                toggleTOC();
+            }
+        }
+    });
+});
+
+// Initialize
+window.addEventListener('DOMContentLoaded', () => {
+    updateTOCActive();
+});
+
+window.addEventListener('scroll', updateTOCActive);
+</script>
+
+</body>
+</html>
