@@ -156,11 +156,11 @@
     revealArmed = false;
     setApp(
       card(
-        el('p', { class: 'sp-kicker', text: 'A two-player Wikipedia guessing game' }),
-        el('h2', { class: 'sp-heading', text: 'Two players. One article. Two secret names.' }),
+        el('p', { class: 'sp-kicker', text: 'A two-player guessing game' }),
+        el('h2', { class: 'sp-heading', text: 'Guess the name you can\'t see.' }),
         el('p', {
           class: 'sp-line',
-          text: 'Start a game and send the second link to a friend. Each of you sees the other player\'s name — and has to work out which name is yours.'
+          text: 'Start a game and send the second link to a friend. You\'ll each see the other player\'s name. Ask yes/no questions to work out your own.'
         }),
         el('div', { class: 'sp-actions' },
           el('button', { class: 'sp-btn', type: 'button', onclick: startNewGame }, 'Start a game')
@@ -243,7 +243,7 @@
         el('strong', { class: 'sp-name', text: partner.display || partner.title }),
         '".'
       ),
-      el('p', { class: 'sp-line', text: 'Ask your partner questions to figure out what your own name is.' }),
+      el('p', { class: 'sp-line', text: 'Ask your partner yes/no questions to work out your own name.' }),
       el('p', { class: 'sp-hint' },
         'Everyone\'s name is somehow related by the word "',
         el('strong', { class: 'sp-name', text: puzzle.parent }),
