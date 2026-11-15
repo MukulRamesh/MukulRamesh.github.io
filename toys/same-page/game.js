@@ -63,22 +63,6 @@
     return el('div', { class: 'sp-card' }, ...children);
   }
 
-  function poolTag(pool) {
-    const evergreen = pool === 'evergreen';
-    const label = evergreen ? 'Evergreen' : 'Trending';
-    const explanation = evergreen
-      ? 'Evergreen: the parent article comes from the curated Vital Articles core list — stable, well-known topics.'
-      : 'Trending: the parent article comes from the filtered monthly pageviews top 1,000 — what people were reading that month.';
-
-    return el('span', {
-      class: 'sp-tag',
-      tabindex: '0',
-      'aria-label': explanation,
-      'data-tip': explanation,
-      text: label
-    });
-  }
-
   const CATEGORY_LABELS = {
     'History': 'History',
     'Geography': 'Geography',
@@ -115,10 +99,19 @@
   }
 
   function categoryTag(puzzle) {
-    const category = puzzle.category || '';
-    if (!category) return null;
-    if (puzzle.pool === 'trending' && category === 'Trending') return null;
-    return el('span', { class: 'sp-cat', text: categoryLabel(category) });
+    const category = puzzle.category || 'Trending';
+    const label = categoryLabel(category);
+    const tip = category === 'Trending'
+      ? 'Trending: the parent article comes from the filtered monthly pageviews top 1,000, so its category is Trending.'
+      : `${label}: the parent article's category from the curated Vital Articles core list.`;
+
+    return el('span', {
+      class: 'sp-tag',
+      tabindex: '0',
+      'aria-label': tip,
+      'data-tip': tip,
+      text: label
+    });
   }
 
   function newGameControl() {
@@ -178,7 +171,6 @@
       for (const pair of parent.pairs || []) {
         puzzles.push({
           parent: parent.title,
-          pool: parent.pool,
           category: parent.category || '',
           hint: parent.hint || '',
           one: pair.one,
@@ -380,7 +372,6 @@
     const children = [
       el('p', { class: 'sp-kicker' },
         `You are Player ${player}`,
-        poolTag(puzzle.pool),
         categoryTag(puzzle)
       ),
       el('p', { class: 'sp-line' },
@@ -460,7 +451,6 @@
       card(
         el('p', { class: 'sp-kicker' },
           'Round revealed',
-          poolTag(puzzle.pool),
           categoryTag(puzzle)
         ),
         el('h2', { class: 'sp-heading', text: 'Your name was...' }),
