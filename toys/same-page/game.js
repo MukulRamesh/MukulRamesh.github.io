@@ -156,6 +156,20 @@
     }
   }
 
+  function wikipediaUrl(title) {
+    return `https://en.wikipedia.org/wiki/${encodeURIComponent(String(title).replace(/ /g, '_'))}`;
+  }
+
+  function articleLink(label, title) {
+    return el('a', {
+      class: 'sp-name sp-name-link',
+      href: wikipediaUrl(title),
+      target: '_blank',
+      rel: 'noopener',
+      text: label
+    });
+  }
+
   // --- data --------------------------------------------------------------
 
   async function loadData() {
@@ -230,23 +244,52 @@
   }
 
   function splitSentences(text) {
-    const parts = text.match(/[^.!?]+[.!?]+["')\]]*|\S[^.!?]*$/g);
-    if (!parts) return [];
+    const sentences = [];
+    let start = 0;
+    let depth = 0;
 
-    const merged = [];
-    for (const part of parts) {
-      const sentence = part.trim();
-      if (!sentence) continue;
-      const previous = merged.length ? merged[merged.length - 1] : '';
-      // Keep initials and dotted abbreviations ("Michael J.", "U.S.") with
-      // the sentence they belong to.
-      if (previous && /(?:^|[\s.])[A-Z]\.$/.test(previous)) {
-        merged[merged.length - 1] = `${previous} ${sentence}`;
-      } else {
-        merged.push(sentence);
+    for (let i = 0; i < text.length; i += 1) {
+      const character = text[i];
+      if (character === '(' || character === '[') {
+        depth += 1;
+        continue;
       }
+      if (character === ')' || character === ']') {
+        depth = Math.max(0, depth - 1);
+        continue;
+      }
+      if (depth > 0 || (character !== '.' && character !== '!' && character !== '?')) {
+        continue;
+      }
+
+      let end = i + 1;
+      while (end < text.length && /["')\]]/.test(text[end])) end += 1;
+      const next = text[end];
+      if (next && !/\s/.test(next)) {
+        i = end - 1;
+        continue;
+      }
+
+      const before = text.slice(0, i);
+      const word = (before.match(/([A-Za-z.]+)$/) || [])[1] || '';
+      const endsWithAbbreviation =
+        /^[A-Z]$/.test(word)
+        || /^(?:Mr|Mrs|Ms|Dr|Prof|St|Jr|Sr|vs|etc|e\.g|i\.e|U\.S|U\.K)$/i.test(word)
+        || /^(?:[A-Za-z]\.)+[A-Za-z]$/.test(word);
+      if (character === '.' && endsWithAbbreviation) {
+        i = end - 1;
+        continue;
+      }
+
+      const sentence = text.slice(start, end).trim();
+      if (sentence) sentences.push(sentence);
+      start = end;
+      i = end - 1;
     }
-    return merged;
+
+    const tail = text.slice(start).trim();
+    if (tail) sentences.push(tail);
+    return sentences;
   }
 
   function redactOwnName(text, own) {
@@ -456,17 +499,17 @@
         el('h2', { class: 'sp-heading', text: 'Your name was...' }),
         el('p', { class: 'sp-line' },
           'You are "',
-          el('strong', { class: 'sp-name', text: own.display || own.title }),
+          articleLink(own.display || own.title, own.title),
           '".'
         ),
         el('p', { class: 'sp-line' },
           'Your partner is "',
-          el('strong', { class: 'sp-name', text: partner.display || partner.title }),
+          articleLink(partner.display || partner.title, partner.title),
           '".'
         ),
         el('p', { class: 'sp-hint' },
           'You\'re both linked from "',
-          el('strong', { class: 'sp-name', text: puzzle.parent }),
+          articleLink(puzzle.parent, puzzle.parent),
           '".'
         ),
         el('p', {
