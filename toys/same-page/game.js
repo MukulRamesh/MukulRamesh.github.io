@@ -102,8 +102,8 @@
     const category = puzzle.category || 'Trending';
     const label = categoryLabel(category);
     const tip = category === 'Trending'
-      ? 'Trending: the parent article comes from the filtered monthly pageviews top 1,000, so its category is Trending.'
-      : `${label}: the parent article's category from the curated Vital Articles core list.`;
+      ? 'Trending: a category for articles from a monthly list of the 1,000 most-read Wikipedia articles.'
+      : `${label}: a category for articles from Wikipedia's curated core-article list.`;
 
     return el('span', {
       class: 'sp-tag',
@@ -319,7 +319,7 @@
         el('h2', { class: 'sp-heading', text: 'Two players. One article. Two secret names.' }),
         el('p', {
           class: 'sp-line',
-          text: 'Pick a category, then start a game and send the second link to a friend. Each of you sees the other player\'s name — and has to work out which name is yours.'
+          text: 'Pick a category and start a game. Send the second link to a friend. Each of you sees the other player\'s name; work out which name is yours.'
         }),
         el('div', { class: 'sp-actions' }, newGameControl()),
         el('p', {
@@ -566,14 +566,14 @@
     if (index === null || index < 0 || index >= puzzles.length) {
       renderError(
         'That game link does not match this puzzle set.',
-        'Start a new game to get a fresh pair of links.'
+        'Start a new game for a fresh link.'
       );
       return;
     }
     if (params.p !== '1' && params.p !== '2') {
       renderError(
         'That game link is missing its player.',
-        'Start a new game to get a fresh pair of links.'
+        'Start a new game and use the link it gives you.'
       );
       return;
     }
