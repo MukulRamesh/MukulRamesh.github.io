@@ -383,12 +383,13 @@ def make_hint(raw_paragraph: str) -> str:
     """Return the lead paragraph with every linked name blanked out."""
     text = re.sub(r"\[\[([^\]]+)\]\]", "_____", raw_paragraph)
     text = strip_markup(text)
-    text = re.sub(
-        r"(\d{4})(?=(?:January|February|March|April|May|June|July|August|"
-        r"September|October|November|December)\s+\d)",
-        r"\1–",
-        text,
+    months = (
+        r"(?:January|February|March|April|May|June|July|August|September|"
+        r"October|November|December)"
     )
+    text = re.sub(rf"(\d{{4}})(?={months}\s*\d)", r"\1 – ", text)
+    text = re.sub(rf"({months})(?=\d)", r"\1 ", text)
+    text = re.sub(r"\s+", " ", text)
     text = re.sub(r"_{3,}", "_____", text)
     return text.strip()
 
