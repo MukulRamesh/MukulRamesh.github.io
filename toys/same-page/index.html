@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Same Page - Mukul Ramesh</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .sp-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 24px 20px 72px;
+        }
+        .sp-back {
+            display: inline-block;
+            margin: 8px 0 22px;
+            color: #704214;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(112, 66, 20, 0.35);
+        }
+        .sp-back:hover {
+            color: #4A312C;
+            border-bottom-color: #4A312C;
+        }
+        .sp-header {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+        .sp-title {
+            font-size: clamp(2.2rem, 6vw, 3.3rem);
+            line-height: 1.05;
+            color: #704214;
+            margin: 0 0 10px;
+            letter-spacing: -0.02em;
+        }
+        .sp-subtitle {
+            color: #5D4037;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .sp-app {
+            min-height: 260px;
+        }
+        .sp-card {
+            background: #FFF8F0;
+            border: 1px solid #E8D5C4;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(62, 39, 35, 0.10);
+        }
+        .sp-kicker {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #8B7355;
+            margin: 0 0 16px;
+        }
+        .sp-tag {
+            display: inline-block;
+            padding: 2px 9px;
+            border-radius: 999px;
+            background: #E8D5C4;
+            color: #4A312C;
+            font-size: 0.7rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .sp-heading {
+            font-size: 1.45rem;
+            line-height: 1.3;
+            color: #704214;
+            margin: 0 0 14px;
+        }
+        .sp-subheading {
+            font-size: 1rem;
+            color: #704214;
+            margin: 0 0 8px;
+        }
+        .sp-line {
+            font-size: 1.08rem;
+            line-height: 1.65;
+            margin: 0 0 12px;
+            overflow-wrap: anywhere;
+        }
+        .sp-line:last-child {
+            margin-bottom: 0;
+        }
+        .sp-name {
+            color: #704214;
+            font-weight: 700;
+        }
+        .sp-hint {
+            margin: 20px 0 0;
+            padding-top: 16px;
+            border-top: 1px dashed #D4C4B0;
+            font-size: 0.98rem;
+            line-height: 1.6;
+            color: #5D4037;
+            overflow-wrap: anywhere;
+        }
+        .sp-small {
+            font-size: 0.86rem;
+            line-height: 1.5;
+            color: #8B7355;
+            margin: 0;
+        }
+        .sp-mt {
+            margin-top: 12px;
+        }
+        .sp-form {
+            margin-top: 24px;
+        }
+        .sp-label {
+            display: block;
+            font-size: 0.9rem;
+            color: #5D4037;
+            margin-bottom: 8px;
+        }
+        .sp-inputrow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .sp-input {
+            flex: 1 1 220px;
+            min-width: 0;
+            font: inherit;
+            font-size: 1rem;
+            padding: 12px 14px;
+            border: 1px solid #C9B8A3;
+            border-radius: 10px;
+            background: #FFFDF9;
+            color: #3E2723;
+        }
+        .sp-input:focus {
+            outline: 3px solid rgba(112, 66, 20, 0.22);
+            border-color: #704214;
+        }
+        .sp-btn {
+            font: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 1px solid #704214;
+            background: #704214;
+            color: #FFF8F0;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.15s;
+        }
+        .sp-btn:hover {
+            background: #5E3511;
+        }
+        .sp-btn:active {
+            transform: translateY(1px);
+        }
+        .sp-btn:focus-visible {
+            outline: 3px solid rgba(112, 66, 20, 0.3);
+            outline-offset: 2px;
+        }
+        .sp-btn-secondary {
+            background: transparent;
+            color: #704214;
+        }
+        .sp-btn-secondary:hover {
+            background: #F0E4D7;
+        }
+        .sp-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 16px;
+        }
+        .sp-status {
+            min-height: 1.5em;
+            margin: 12px 0 0;
+            font-size: 0.95rem;
+            color: #8B7355;
+            overflow-wrap: anywhere;
+        }
+        .sp-status.error {
+            color: #9B2C2C;
+        }
+        .sp-status.good {
+            color: #3E6B3A;
+        }
+        .sp-partner {
+            margin-top: 26px;
+            padding-top: 20px;
+            border-top: 1px dashed #D4C4B0;
+        }
+        .sp-partner .sp-small {
+            margin-bottom: 10px;
+        }
+        .sp-linkrow {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .sp-linkinput {
+            flex: 1 1 260px;
+            min-width: 0;
+            font: inherit;
+            font-size: 0.85rem;
+            padding: 10px 12px;
+            border: 1px solid #C9B8A3;
+            border-radius: 8px;
+            background: #FFFDF9;
+            color: #3E2723;
+        }
+        .sp-copy {
+            font: inherit;
+            font-size: 0.9rem;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #704214;
+            background: #F0E4D7;
+            color: #4A312C;
+            cursor: pointer;
+        }
+        .sp-copy:hover {
+            background: #E8D5C4;
+        }
+        .sp-rules {
+            margin-top: 28px;
+            background: #FFF8F0;
+            border: 1px solid #E8D5C4;
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+        .sp-rules summary {
+            cursor: pointer;
+            color: #704214;
+            font-weight: 600;
+        }
+        .sp-rules-body {
+            margin-top: 10px;
+            color: #5D4037;
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+        .sp-rules-body ul {
+            margin: 10px 0 0;
+            padding-left: 22px;
+        }
+        .sp-rules-body li {
+            margin-bottom: 7px;
+        }
+        .sp-attrib {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #8B7355;
+        }
+        .sp-attrib a {
+            color: #8B7355;
+        }
+        .sp-attrib a:hover {
+            color: #704214;
+        }
+        .sp-loading {
+            text-align: center;
+            color: #8B7355;
+            padding: 48px 0;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding-top: 56px;
+            }
+            .main-navbar {
+                gap: 8px;
+                padding: 10px 0;
+            }
+            .main-navbar a {
+                font-size: 0.82rem;
+                padding: 8px 8px;
+            }
+            .sp-wrap {
+                padding: 16px 12px 56px;
+            }
+            .sp-card {
+                padding: 22px 18px;
+            }
+            .sp-inputrow,
+            .sp-linkrow {
+                flex-direction: column;
+            }
+            .sp-input,
+            .sp-linkinput {
+                flex: 0 0 auto;
+                width: 100%;
+            }
+            .sp-btn,
+            .sp-copy {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<nav class="main-navbar">
+    <a href="../../landingpage/home.html" id="nav-home">Home</a>
+    <a href="../../blog/blog.html" id="nav-blog">Blog</a>
+    <a href="../toys.html" id="nav-toys" class="active">Mini-Projects</a>
+</nav>
+<main class="sp-wrap">
+    <a class="sp-back" href="../toys.html">&larr; Back to Mini-Projects</a>
+    <div class="sp-header">
+        <h1 class="sp-title">Same Page</h1>
+        <p class="sp-subtitle">Two players, one Wikipedia article, two secret names.</p>
+    </div>
+    <div id="sp-app" class="sp-app" aria-live="polite">
+        <p class="sp-loading">Dealing the cards&hellip;</p>
+    </div>
+    <details class="sp-rules">
+        <summary>How to play</summary>
+        <div class="sp-rules-body">
+            <p>Every game picks one Wikipedia article and two names linked from its first paragraph. Each player is shown only their partner's name.</p>
+            <ul>
+                <li>Ask your partner yes/no questions to work out what your own name is.</li>
+                <li>Answer truthfully, from memory. Never say or describe the name you can see &mdash; only answer questions.</li>
+                <li>Don't look anything up or search during play. If you don't know, say "I don't know"; it doesn't count as a question.</li>
+                <li>Both names are links from the first paragraph of the shared word's article.</li>
+                <li>Figure out your own name to win. The app doesn't referee the race.</li>
+            </ul>
+        </div>
+    </details>
+    <p class="sp-attrib">Puzzles built from Wikipedia data &middot; <a href="https://www.wikipedia.org/" target="_blank" rel="noopener">Wikipedia</a> &middot; <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</p>
+</main>
+<noscript><p class="sp-loading">Same Page needs JavaScript.</p></noscript>
+<script src="game.js" defer></script>
+</body>
+</html>
