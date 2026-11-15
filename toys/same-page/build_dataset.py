@@ -35,6 +35,7 @@ import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
+from difflib import SequenceMatcher
 from pathlib import Path
 
 API = "https://en.wikipedia.org/w/api.php"
@@ -48,6 +49,7 @@ VITAL_KEYS = [chr(c) for c in range(ord("A"), ord("Z") + 1)] + ["others"]
 DEFAULT_MONTH = "2026-10"
 MIN_ARTICLE_BYTES = 3000
 DEFAULT_PAIRS = 3
+PARENT_SIMILARITY = 0.85
 MAX_ALIASES = 8
 REVISION_BATCH = 20
 INFO_BATCH = 50
@@ -74,13 +76,15 @@ ADULT_TITLES = {
     "erotic", "erotica", "nudity", "nude", "incest", "rape", "bestiality",
     "pedophilia", "child pornography", "adult film", "pornographic film",
     "sex position", "orgasm", "prostitution", "striptease", "sexual arousal",
-    "human sexual activity", "sexual orientation",
+    "human sexual activity", "sexual orientation", "sexual abuse",
+    "child sexual abuse", "sexual assault", "sexual violence",
 }
 
 ADULT_RE = re.compile(
     r"\b(?:sex|porn|pornographic|erotic|erotica|hentai|nudity|nude|"
     r"masturbation|orgasm|prostitution|striptease|incest|bestiality|"
-    r"pedophilia|rape|onlyfans|xnxx|xvideos)\b",
+    r"pedophilia|rape|onlyfans|xnxx|xvideos|sexual abuse|sexual assault|"
+    r"sexual violence|child sexual abuse)\b",
     re.IGNORECASE,
 )
 
@@ -698,6 +702,20 @@ def pair_is_bad(a: dict, b: dict) -> bool:
     return False
 
 
+def too_close_to_parent(name: str, parent: str) -> bool:
+    """Reject names that are basically the parent word itself.
+
+    "Good" under the parent "Goods" gives the answer away, as do names
+    that only change a word's form ("Monarch" / "Monarchy") or repeat
+    the parent inside a longer title ("Rome" under "Ancient Rome").
+    """
+    if related(name, parent) or token_overlap_bad(name, parent):
+        return True
+    return SequenceMatcher(
+        None, norm_for_pair(name), norm_for_pair(parent)
+    ).ratio() >= PARENT_SIMILARITY
+
+
 def make_pairs(items: list[dict], count: int, rng: random.Random) -> list[dict]:
     if len(items) < 2:
         return []
@@ -810,6 +828,8 @@ def main() -> int:
     unique_parents: dict[str, dict] = {}
     for original, payload in parsed.items():
         resolved = payload["resolved"]
+        if is_adult_text(resolved) or resolved.casefold() in ADULT_TITLES:
+            continue
         key = norm_title_key(resolved)
         if key not in unique_parents:
             unique_parents[key] = {
@@ -833,15 +853,15 @@ def main() -> int:
         for link in parent["links"]:
             title = link["title"]
             anchor = link["anchor"]
-            if norm_title_key(title) == norm_title_key(parent_title):
-                continue
             if is_bad_name(title, title):
+                continue
+            if too_close_to_parent(title, parent_title):
                 continue
             info = lookup_item(item_data, title)
             if not page_is_usable(info):
                 continue
             canonical = info.get("title") or title
-            if norm_title_key(canonical) == norm_title_key(parent_title):
+            if too_close_to_parent(canonical, parent_title):
                 continue
             if canonical in items_by_title:
                 continue
