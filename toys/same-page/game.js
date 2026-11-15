@@ -14,6 +14,7 @@
   let dataset = null;
   let puzzles = null;
   let revealArmed = false;
+  let hintTimer = null;
 
   // --- small DOM helpers -------------------------------------------------
 
@@ -65,6 +66,13 @@
     return pool === 'evergreen' ? 'Evergreen' : 'Trending';
   }
 
+  function clearHintTimer() {
+    if (hintTimer) {
+      clearInterval(hintTimer);
+      hintTimer = null;
+    }
+  }
+
   // --- data --------------------------------------------------------------
 
   async function loadData() {
@@ -74,43 +82,20 @@
     if (!dataset || !Array.isArray(dataset.parents)) {
       throw new Error('data.json is missing its parents list');
     }
+
     puzzles = [];
     for (const parent of dataset.parents) {
       for (const pair of parent.pairs || []) {
         puzzles.push({
           parent: parent.title,
           pool: parent.pool,
+          hint: parent.hint || '',
           one: pair.one,
           two: pair.two
         });
       }
     }
     if (!puzzles.length) throw new Error('data.json has no puzzles');
-  }
-
-  function namesFor(item) {
-    if (!item) return [];
-    return Array.isArray(item.answers) && item.answers.length
-      ? item.answers
-      : [item.title, item.display].filter(Boolean);
-  }
-
-  function normalize(value) {
-    return String(value || '')
-      .normalize('NFKD')
-      .replace(/[̀-ͯ]/g, '')
-      .toLowerCase()
-      .replace(/[’']/g, '')
-      .replace(/[^a-z0-9]+/g, ' ')
-      .replace(/^the\s+/, '')
-      .trim()
-      .replace(/\s+/g, ' ');
-  }
-
-  function matches(guess, item) {
-    const normalized = normalize(guess);
-    if (!normalized) return false;
-    return namesFor(item).some(answer => normalize(answer) === normalized);
   }
 
   // --- seed + URL --------------------------------------------------------
@@ -150,27 +135,95 @@
     };
   }
 
-  // --- views -------------------------------------------------------------
+  // --- context hints -----------------------------------------------------
 
-  function renderLanding() {
-    revealArmed = false;
-    setApp(
-      card(
-        el('p', { class: 'sp-kicker', text: 'A two-player guessing game' }),
-        el('h2', { class: 'sp-heading', text: 'Guess the name you can\'t see.' }),
-        el('p', {
-          class: 'sp-line',
-          text: 'Start a game and send the second link to a friend. You\'ll each see the other player\'s name. Ask yes/no questions to work out your own.'
-        }),
-        el('div', { class: 'sp-actions' },
-          el('button', { class: 'sp-btn', type: 'button', onclick: startNewGame }, 'Start a game')
-        ),
-        el('p', { class: 'sp-small sp-mt', text: 'You\'ll be Player 1. You\'ll get a link to send to Player 2.' })
-      )
+  function escapeRegExp(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function splitSentences(text) {
+    const parts = text.match(/[^.!?]+[.!?]+["')\]]*|\S[^.!?]*$/g);
+    if (!parts) return [];
+
+    const merged = [];
+    for (const part of parts) {
+      const sentence = part.trim();
+      if (!sentence) continue;
+      const previous = merged.length ? merged[merged.length - 1] : '';
+      // Keep initials and dotted abbreviations ("Michael J.", "U.S.") with
+      // the sentence they belong to.
+      if (previous && /(?:^|[\s.])[A-Z]\.$/.test(previous)) {
+        merged[merged.length - 1] = `${previous} ${sentence}`;
+      } else {
+        merged.push(sentence);
+      }
+    }
+    return merged;
+  }
+
+  function redactOwnName(text, own) {
+    let out = text || '';
+    const terms = [own.title, own.display, own.anchor]
+      .filter(term => term && term.length >= 3);
+
+    for (const term of terms) {
+      const pattern = new RegExp(
+        `(?<![\\w])${escapeRegExp(term)}(?![\\w])`,
+        'gi'
+      );
+      out = out.replace(pattern, '_____');
+    }
+    return out;
+  }
+
+  function contextPanel(puzzle, own) {
+    const text = redactOwnName(puzzle.hint, own);
+    const sentences = splitSentences(text);
+    if (!sentences.length) return null;
+
+    let shown = 1;
+    const body = el('p', { class: 'sp-context-text', text: sentences[0] });
+    const status = el('p', {
+      class: 'sp-context-status',
+      text: sentences.length > 1 ? 'New context appears every 30 seconds.' : 'The article context is fully revealed.'
+    });
+    let button = null;
+
+    const revealNext = () => {
+      if (shown >= sentences.length) {
+        clearHintTimer();
+        return;
+      }
+      shown += 1;
+      body.textContent = sentences.slice(0, shown).join(' ');
+      if (shown >= sentences.length) {
+        clearHintTimer();
+        if (button) button.disabled = true;
+        status.textContent = 'The article context is fully revealed.';
+      }
+    };
+
+    if (sentences.length > 1) {
+      button = el('button', {
+        class: 'sp-context-btn',
+        type: 'button',
+        onclick: revealNext
+      }, 'More context');
+      hintTimer = setInterval(revealNext, 30000);
+    }
+
+    return el('div', { class: 'sp-context' },
+      el('p', { class: 'sp-context-title', text: 'Article context' }),
+      body,
+      button ? el('div', { class: 'sp-context-actions' }, button) : null,
+      status
     );
   }
 
+  // --- views -------------------------------------------------------------
+
   function renderConfirm(seed, puzzle) {
+    clearHintTimer();
     revealArmed = false;
     setApp(
       card(
@@ -197,41 +250,22 @@
   }
 
   function renderGame(seed, player, puzzle) {
+    clearHintTimer();
     revealArmed = false;
     const own = player === '1' ? puzzle.one : puzzle.two;
     const partner = player === '1' ? puzzle.two : puzzle.one;
-    const status = el('p', { class: 'sp-status', role: 'status', 'aria-live': 'polite' });
-
-    const input = el('input', {
-      class: 'sp-input',
-      id: 'sp-guess',
-      type: 'text',
-      autocomplete: 'off',
-      autocapitalize: 'off',
-      spellcheck: 'false',
-      placeholder: 'Type your name',
-      'aria-label': 'What\'s your name?'
-    });
-
-    const form = el('form', {
-      class: 'sp-form',
-      onsubmit: event => {
-        event.preventDefault();
-        submitGuess(player, puzzle, input, status);
-      }
-    },
-      el('label', { class: 'sp-label', for: 'sp-guess', text: 'What\'s your name?' }),
-      el('div', { class: 'sp-inputrow' },
-        input,
-        el('button', { class: 'sp-btn', type: 'submit' }, 'Guess')
-      )
-    );
 
     const reveal = el('button', {
       class: 'sp-btn sp-btn-secondary',
       type: 'button',
-      onclick: () => armReveal(player, puzzle, reveal, status)
+      onclick: () => armReveal(player, puzzle, reveal)
     }, 'Reveal my name');
+
+    const newGame = el('button', {
+      class: 'sp-btn sp-btn-secondary',
+      type: 'button',
+      onclick: startNewGame
+    }, 'New game');
 
     const children = [
       el('p', { class: 'sp-kicker' },
@@ -243,15 +277,15 @@
         el('strong', { class: 'sp-name', text: partner.display || partner.title }),
         '".'
       ),
-      el('p', { class: 'sp-line', text: 'Ask your partner yes/no questions to work out your own name.' }),
+      el('p', {
+        class: 'sp-line',
+        text: 'Ask your partner yes/no questions to work out your own name.'
+      }),
       el('p', { class: 'sp-hint' },
         'Everyone\'s name is somehow related by the word "',
         el('strong', { class: 'sp-name', text: puzzle.parent }),
         '".'
-      ),
-      form,
-      status,
-      el('div', { class: 'sp-actions' }, reveal)
+      )
     ];
 
     if (player === '1') {
@@ -288,60 +322,36 @@
       );
     }
 
+    children.push(el('div', { class: 'sp-actions' }, reveal, newGame));
+
+    const context = contextPanel(puzzle, own);
+    if (context) children.push(context);
+
     setApp(card(...children));
-    if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
-      input.focus();
-    }
   }
 
-  function submitGuess(player, puzzle, input, status) {
-    const guess = input.value.trim();
-    if (!guess) {
-      status.className = 'sp-status';
-      status.textContent = 'Type a name first.';
-      return;
-    }
-
-    const own = player === '1' ? puzzle.one : puzzle.two;
-    const partner = player === '1' ? puzzle.two : puzzle.one;
-
-    if (matches(guess, own)) {
-      renderResult(player, puzzle, 'correct');
-      return;
-    }
-    if (matches(guess, partner)) {
-      status.className = 'sp-status error';
-      status.textContent = 'That\'s your partner\'s name. You\'re looking for your own.';
-      return;
-    }
-    status.className = 'sp-status error';
-    status.textContent = 'That\'s not your name. Keep asking.';
-  }
-
-  function armReveal(player, puzzle, button, status) {
+  function armReveal(player, puzzle, button) {
     if (!revealArmed) {
       revealArmed = true;
       button.textContent = 'Tap again to reveal';
-      status.className = 'sp-status';
-      status.textContent = 'This ends your round and shows both names.';
       return;
     }
-    renderResult(player, puzzle, 'reveal');
+    renderResult(player, puzzle);
   }
 
-  function renderResult(player, puzzle, mode) {
+  function renderResult(player, puzzle) {
+    clearHintTimer();
     revealArmed = false;
     const own = player === '1' ? puzzle.one : puzzle.two;
     const partner = player === '1' ? puzzle.two : puzzle.one;
-    const heading = mode === 'correct' ? 'You found your name.' : 'Your name was...';
 
     setApp(
       card(
         el('p', { class: 'sp-kicker' },
-          mode === 'correct' ? 'You got it' : 'Round revealed',
+          'Round revealed',
           el('span', { class: 'sp-tag', text: poolLabel(puzzle.pool) })
         ),
-        el('h2', { class: 'sp-heading', text: heading }),
+        el('h2', { class: 'sp-heading', text: 'Your name was...' }),
         el('p', { class: 'sp-line' },
           'You are "',
           el('strong', { class: 'sp-name', text: own.display || own.title }),
@@ -357,15 +367,23 @@
           el('strong', { class: 'sp-name', text: puzzle.parent }),
           '".'
         ),
-        el('p', { class: 'sp-small sp-mt', text: 'The race is social. Tell your partner how you did.' }),
+        el('p', {
+          class: 'sp-small sp-mt',
+          text: 'The race is social. Tell your partner how you did.'
+        }),
         el('div', { class: 'sp-actions' },
-          el('button', { class: 'sp-btn', type: 'button', onclick: startNewGame }, 'New game')
+          el('button', {
+            class: 'sp-btn',
+            type: 'button',
+            onclick: startNewGame
+          }, 'New game')
         )
       )
     );
   }
 
   function renderError(title, detail) {
+    clearHintTimer();
     const actions = [];
     if (puzzles && puzzles.length) {
       actions.push(el('button', { class: 'sp-btn', type: 'button', onclick: startNewGame }, 'Start a new game'));
@@ -436,7 +454,7 @@
 
     const params = getParams();
     if (!params.seed) {
-      renderLanding();
+      startNewGame();
       return;
     }
     if (params.v !== String(dataset.version)) {

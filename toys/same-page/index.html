@@ -111,34 +111,11 @@
         .sp-mt {
             margin-top: 12px;
         }
-        .sp-form {
-            margin-top: 24px;
-        }
-        .sp-label {
-            display: block;
-            font-size: 0.9rem;
-            color: #5D4037;
-            margin-bottom: 8px;
-        }
-        .sp-inputrow {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .sp-input {
-            flex: 1 1 220px;
-            min-width: 0;
-            font: inherit;
-            font-size: 1rem;
-            padding: 12px 14px;
-            border: 1px solid #C9B8A3;
-            border-radius: 10px;
-            background: #FFFDF9;
-            color: #3E2723;
-        }
-        .sp-input:focus {
-            outline: 3px solid rgba(112, 66, 20, 0.22);
-            border-color: #704214;
+        .sp-linkinput,
+        .sp-btn,
+        .sp-copy,
+        .sp-context-btn {
+            box-sizing: border-box;
         }
         .sp-btn {
             font: inherit;
@@ -176,18 +153,51 @@
             align-items: center;
             margin-top: 16px;
         }
-        .sp-status {
-            min-height: 1.5em;
-            margin: 12px 0 0;
-            font-size: 0.95rem;
+        .sp-context {
+            margin-top: 22px;
+            padding: 16px 18px;
+            background: #F0E4D7;
+            border: 1px solid #E8D5C4;
+            border-radius: 12px;
+        }
+        .sp-context-title {
+            font-size: 0.76rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
             color: #8B7355;
+            margin: 0 0 8px;
+        }
+        .sp-context-text {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #5D4037;
             overflow-wrap: anywhere;
         }
-        .sp-status.error {
-            color: #9B2C2C;
+        .sp-context-actions {
+            margin-top: 12px;
         }
-        .sp-status.good {
-            color: #3E6B3A;
+        .sp-context-btn {
+            font: inherit;
+            font-size: 0.85rem;
+            padding: 8px 12px;
+            border: 1px solid #704214;
+            border-radius: 8px;
+            background: #FFF8F0;
+            color: #704214;
+            cursor: pointer;
+        }
+        .sp-context-btn:hover {
+            background: #E8D5C4;
+        }
+        .sp-context-btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+        .sp-context-status {
+            margin: 10px 0 0;
+            font-size: 0.8rem;
+            color: #8B7355;
         }
         .sp-partner {
             margin-top: 26px;
@@ -287,17 +297,18 @@
             .sp-card {
                 padding: 22px 18px;
             }
-            .sp-inputrow,
             .sp-linkrow {
                 flex-direction: column;
             }
-            .sp-input,
             .sp-linkinput {
                 flex: 0 0 auto;
                 width: 100%;
             }
             .sp-btn,
             .sp-copy {
+                width: 100%;
+            }
+            .sp-context-btn {
                 width: 100%;
             }
         }
@@ -326,6 +337,7 @@
                 <li>Ask your partner yes/no questions about your name. They answer from memory; they can't say or describe the name you're wearing.</li>
                 <li>Don't look anything up during play. If you don't know an answer, say "I don't know"; it doesn't count as a question.</li>
                 <li>The names come from one shared Wikipedia article; both are linked from its first paragraph.</li>
+                <li>Article context fills in over time; use it to sharpen your questions.</li>
                 <li>The first player to say their own name out loud wins. The app doesn't referee the race.</li>
             </ul>
         </div>
