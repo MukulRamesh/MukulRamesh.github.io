@@ -358,7 +358,7 @@ def extract_wikilinks(text: str) -> list[dict]:
     return links
 
 
-def parse_wikitext_lead(content: str) -> tuple[str | None, list[dict]]:
+def parse_wikitext_lead(content: str) -> tuple[str | None, list[dict], str | None]:
     content = re.sub(r"<!--.*?-->", "", content, flags=re.S)
     lead = re.split(r"\n==+\s*[^=\n]+\s*==+", content, maxsplit=1)[0]
     lead = remove_tables(lead)
@@ -375,8 +375,22 @@ def parse_wikitext_lead(content: str) -> tuple[str | None, list[dict]]:
             continue
         links = extract_wikilinks(text)
         if len(links) >= 2:
-            return strip_markup(text), links
-    return None, []
+            return strip_markup(text), links, text
+    return None, [], None
+
+
+def make_hint(raw_paragraph: str) -> str:
+    """Return the lead paragraph with every linked name blanked out."""
+    text = re.sub(r"\[\[([^\]]+)\]\]", "_____", raw_paragraph)
+    text = strip_markup(text)
+    text = re.sub(
+        r"(\d{4})(?=(?:January|February|March|April|May|June|July|August|"
+        r"September|October|November|December)\s+\d)",
+        r"\1–",
+        text,
+    )
+    text = re.sub(r"_{3,}", "_____", text)
+    return text.strip()
 
 
 # ---------------------------------------------------------------------------
@@ -807,7 +821,7 @@ def main() -> int:
         payload = revisions.get(parent["title"])
         if not payload:
             continue
-        paragraph, links = parse_wikitext_lead(payload["content"])
+        paragraph, links, _ = parse_wikitext_lead(payload["content"])
         if paragraph is None:
             continue
         parsed[parent["title"]] = {
