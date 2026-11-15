@@ -318,6 +318,26 @@
 
   // --- views -------------------------------------------------------------
 
+  function renderLanding() {
+    clearHintTimer();
+    revealArmed = false;
+    setApp(
+      card(
+        el('p', { class: 'sp-kicker', text: 'A two-player guessing game' }),
+        el('h2', { class: 'sp-heading', text: 'Two players. One article. Two secret names.' }),
+        el('p', {
+          class: 'sp-line',
+          text: 'Pick a category, then start a game and send the second link to a friend. Each of you sees the other player\'s name — and has to work out which name is yours.'
+        }),
+        el('div', { class: 'sp-actions' }, newGameControl()),
+        el('p', {
+          class: 'sp-small sp-mt',
+          text: 'You\'ll be Player 1. You\'ll get a link to send to Player 2.'
+        })
+      )
+    );
+  }
+
   function renderConfirm(seed, puzzle) {
     clearHintTimer();
     revealArmed = false;
@@ -338,7 +358,7 @@
           el('button', {
             class: 'sp-btn sp-btn-secondary',
             type: 'button',
-            onclick: () => startNewGame()
+            onclick: () => renderLanding()
           }, 'Start a new game instead')
         )
       )
@@ -472,7 +492,7 @@
     clearHintTimer();
     const actions = [];
     if (puzzles && puzzles.length) {
-      actions.push(el('button', { class: 'sp-btn', type: 'button', onclick: () => startNewGame() }, 'Start a new game'));
+      actions.push(el('button', { class: 'sp-btn', type: 'button', onclick: () => renderLanding() }, 'Start a new game'));
     } else {
       actions.push(el('button', { class: 'sp-btn', type: 'button', onclick: () => window.location.reload() }, 'Reload'));
     }
@@ -541,7 +561,7 @@
 
     const params = getParams();
     if (!params.seed) {
-      startNewGame();
+      renderLanding();
       return;
     }
     if (params.v !== String(dataset.version)) {
