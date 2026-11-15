@@ -15,6 +15,7 @@
   let puzzles = null;
   let revealArmed = false;
   let hintTimer = null;
+  let selectedCategory = '';
 
   // --- small DOM helpers -------------------------------------------------
 
@@ -78,6 +79,83 @@
     });
   }
 
+  const CATEGORY_LABELS = {
+    'History': 'History',
+    'Geography': 'Geography',
+    'People': 'People',
+    'Arts': 'Arts',
+    'Physical sciences': 'Physical sciences',
+    'Biology and health sciences': 'Biology & health',
+    'Society and social sciences': 'Society',
+    'Technology': 'Technology',
+    'Philosophy and religion': 'Philosophy & religion',
+    'Everyday life': 'Everyday life',
+    'Mathematics': 'Mathematics',
+    'Trending': 'Trending',
+    'Other': 'Other'
+  };
+  const CATEGORY_ORDER = [
+    'History', 'Geography', 'People', 'Arts', 'Physical sciences',
+    'Biology and health sciences', 'Society and social sciences',
+    'Technology', 'Philosophy and religion', 'Everyday life',
+    'Mathematics', 'Trending', 'Other'
+  ];
+
+  function categoryLabel(category) {
+    return CATEGORY_LABELS[category] || category;
+  }
+
+  function categoryChoices() {
+    const present = new Set(puzzles.map(puzzle => puzzle.category).filter(Boolean));
+    const ordered = CATEGORY_ORDER.filter(category => present.has(category));
+    const extras = [...present]
+      .filter(category => !CATEGORY_ORDER.includes(category))
+      .sort();
+    return [...ordered, ...extras];
+  }
+
+  function categoryTag(puzzle) {
+    const category = puzzle.category || '';
+    if (!category) return null;
+    if (puzzle.pool === 'trending' && category === 'Trending') return null;
+    return el('span', { class: 'sp-cat', text: categoryLabel(category) });
+  }
+
+  function newGameControl() {
+    const select = el('select', {
+      class: 'sp-select',
+      id: 'sp-category-select',
+      'aria-label': 'Category for the new game'
+    });
+    select.appendChild(el('option', { value: '', text: 'Random' }));
+    for (const category of categoryChoices()) {
+      select.appendChild(el('option', {
+        value: category,
+        text: categoryLabel(category)
+      }));
+    }
+    select.value = selectedCategory;
+    select.addEventListener('change', () => {
+      selectedCategory = select.value;
+    });
+
+    const button = el('button', {
+      class: 'sp-btn sp-btn-secondary',
+      type: 'button',
+      onclick: () => startNewGame(select.value)
+    }, 'New game');
+
+    return el('div', { class: 'sp-newgame' },
+      el('label', {
+        class: 'sp-select-label',
+        for: 'sp-category-select',
+        text: 'Category'
+      }),
+      select,
+      button
+    );
+  }
+
   function clearHintTimer() {
     if (hintTimer) {
       clearInterval(hintTimer);
@@ -101,6 +179,7 @@
         puzzles.push({
           parent: parent.title,
           pool: parent.pool,
+          category: parent.category || '',
           hint: parent.hint || '',
           one: pair.one,
           two: pair.two
@@ -119,8 +198,13 @@
     return Number.isSafeInteger(index) ? index : null;
   }
 
-  function randomSeed() {
-    const index = Math.floor(Math.random() * puzzles.length);
+  function randomSeed(category) {
+    const choices = [];
+    puzzles.forEach((puzzle, index) => {
+      if (!category || puzzle.category === category) choices.push(index);
+    });
+    const indices = choices.length ? choices : puzzles.map((_, index) => index);
+    const index = indices[Math.floor(Math.random() * indices.length)];
     const first = WORDS[Math.floor(Math.random() * WORDS.length)];
     const second = WORDS[Math.floor(Math.random() * WORDS.length)];
     return `${first}-${second}-${String(index).padStart(4, '0')}`;
@@ -254,7 +338,7 @@
           el('button', {
             class: 'sp-btn sp-btn-secondary',
             type: 'button',
-            onclick: startNewGame
+            onclick: () => startNewGame()
           }, 'Start a new game instead')
         )
       )
@@ -273,16 +357,11 @@
       onclick: () => armReveal(player, puzzle, reveal)
     }, 'Reveal my name');
 
-    const newGame = el('button', {
-      class: 'sp-btn sp-btn-secondary',
-      type: 'button',
-      onclick: startNewGame
-    }, 'New game');
-
     const children = [
       el('p', { class: 'sp-kicker' },
         `You are Player ${player}`,
-        poolTag(puzzle.pool)
+        poolTag(puzzle.pool),
+        categoryTag(puzzle)
       ),
       el('p', { class: 'sp-line' },
         'Your partner\'s name is "',
@@ -334,7 +413,7 @@
       );
     }
 
-    children.push(el('div', { class: 'sp-actions' }, reveal, newGame));
+    children.push(el('div', { class: 'sp-actions' }, newGameControl(), reveal));
 
     const context = contextPanel(puzzle, own);
     if (context) children.push(context);
@@ -361,7 +440,8 @@
       card(
         el('p', { class: 'sp-kicker' },
           'Round revealed',
-          poolTag(puzzle.pool)
+          poolTag(puzzle.pool),
+          categoryTag(puzzle)
         ),
         el('h2', { class: 'sp-heading', text: 'Your name was...' }),
         el('p', { class: 'sp-line' },
@@ -383,13 +463,7 @@
           class: 'sp-small sp-mt',
           text: 'The race is social. Tell your partner how you did.'
         }),
-        el('div', { class: 'sp-actions' },
-          el('button', {
-            class: 'sp-btn',
-            type: 'button',
-            onclick: startNewGame
-          }, 'New game')
-        )
+        el('div', { class: 'sp-actions' }, newGameControl())
       )
     );
   }
@@ -398,7 +472,7 @@
     clearHintTimer();
     const actions = [];
     if (puzzles && puzzles.length) {
-      actions.push(el('button', { class: 'sp-btn', type: 'button', onclick: startNewGame }, 'Start a new game'));
+      actions.push(el('button', { class: 'sp-btn', type: 'button', onclick: () => startNewGame() }, 'Start a new game'));
     } else {
       actions.push(el('button', { class: 'sp-btn', type: 'button', onclick: () => window.location.reload() }, 'Reload'));
     }
@@ -415,8 +489,9 @@
 
   // --- actions -----------------------------------------------------------
 
-  function startNewGame() {
-    const seed = randomSeed();
+  function startNewGame(category = selectedCategory) {
+    selectedCategory = category || '';
+    const seed = randomSeed(selectedCategory);
     const index = parseSeed(seed);
     setGameUrl(seed, 1);
     renderGame(seed, '1', puzzles[index]);

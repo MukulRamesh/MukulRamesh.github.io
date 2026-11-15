@@ -105,6 +105,16 @@
             visibility: visible;
             transform: translateX(-50%) translateY(0);
         }
+        .sp-cat {
+            display: inline-block;
+            padding: 2px 9px;
+            border: 1px solid #D4C4B0;
+            border-radius: 999px;
+            color: #5D4037;
+            font-size: 0.7rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
         .sp-heading {
             font-size: 1.45rem;
             line-height: 1.3;
@@ -188,6 +198,30 @@
             flex-wrap: wrap;
             align-items: center;
             margin-top: 16px;
+        }
+        .sp-newgame {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .sp-select-label {
+            font-size: 0.85rem;
+            color: #5D4037;
+        }
+        .sp-select {
+            font: inherit;
+            font-size: 0.88rem;
+            padding: 10px 12px;
+            border: 1px solid #C9B8A3;
+            border-radius: 8px;
+            background: #FFFDF9;
+            color: #3E2723;
+            max-width: 240px;
+        }
+        .sp-select:focus {
+            outline: 3px solid rgba(112, 66, 20, 0.22);
+            border-color: #704214;
         }
         .sp-context {
             margin-top: 22px;
@@ -346,6 +380,13 @@
             }
             .sp-context-btn {
                 width: 100%;
+            }
+            .sp-newgame {
+                width: 100%;
+            }
+            .sp-select {
+                width: 100%;
+                max-width: none;
             }
         }
     </style>

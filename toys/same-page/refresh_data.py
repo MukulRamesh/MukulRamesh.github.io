@@ -79,19 +79,41 @@ def hypernym_of(sentence: str, item: dict) -> str | None:
     return None
 
 
+def fetch_vital_topics() -> dict[str, str]:
+    topics: dict[str, str] = {}
+    for key in bd.VITAL_KEYS:
+        text = bd.fetch_text(bd.VITAL.format(key=key), refresh=False).lstrip("﻿")
+        payload = json.loads(text)
+        for title, meta in payload.items():
+            try:
+                level = int(meta.get("level", 99))
+            except (TypeError, ValueError):
+                continue
+            if level > 3:
+                continue
+            topics[bd.norm_title_key(title)] = meta.get("topic") or "Other"
+    return topics
+
+
 def build_parsed() -> dict[str, dict]:
     pageviews = bd.fetch_pageviews(bd.DEFAULT_MONTH, refresh=False)
     vital = bd.fetch_vital(refresh=False)
 
+    topics = fetch_vital_topics()
     source: dict[str, dict] = {}
     for title in pageviews:
-        source.setdefault(bd.norm_title_key(title), {"title": title, "pool": "trending"})
+        source.setdefault(
+            bd.norm_title_key(title),
+            {"title": title, "pool": "trending", "category": "Trending"},
+        )
     for title in vital:
         key = bd.norm_title_key(title)
+        category = topics.get(key, "Other")
         if key in source:
             source[key]["pool"] = "evergreen"
+            source[key]["category"] = category
         else:
-            source[key] = {"title": title, "pool": "evergreen"}
+            source[key] = {"title": title, "pool": "evergreen", "category": category}
 
     revisions = bd.fetch_revisions(
         [parent["title"] for parent in source.values()],
@@ -106,13 +128,16 @@ def build_parsed() -> dict[str, dict]:
         resolved = payload["resolved"]
         key = bd.norm_title_key(resolved)
         pool = source.get(bd.norm_title_key(original), {}).get("pool", "evergreen")
+        category = source.get(bd.norm_title_key(original), {}).get("category", "Other")
         if key in parsed:
             if pool == "evergreen":
                 parsed[key]["pool"] = "evergreen"
+                parsed[key]["category"] = category
             continue
         parsed[key] = {
             "title": resolved,
             "pool": pool,
+            "category": category,
             "paragraph": paragraph,
             "links": links,
             "hint": bd.make_hint(raw),
@@ -306,6 +331,7 @@ def main() -> int:
             target = {
                 "title": ap["title"],
                 "pool": ap["pool"],
+                "category": ap["category"],
                 "pairs": [],
             }
             parents[a_key] = target
@@ -363,6 +389,7 @@ def main() -> int:
         pin = parsed.get(key)
         if pin:
             parent["hint"] = pin["hint"]
+            parent["category"] = pin["category"]
         out.append(parent)
 
     out.sort(key=lambda parent: parent["title"].casefold())
