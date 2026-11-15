@@ -270,7 +270,7 @@
           el('h2', { class: 'sp-subheading', text: 'Send this to Player 2' }),
           el('p', {
             class: 'sp-small',
-            text: 'Don\'t open this link yourself — it would show you your own name.'
+            text: 'Don\'t open this link yourself. It would show you your own name.'
           }),
           el('div', { class: 'sp-linkrow' },
             linkInput,
@@ -311,11 +311,11 @@
     }
     if (matches(guess, partner)) {
       status.className = 'sp-status error';
-      status.textContent = 'That\'s your partner\'s name — you\'re looking for your own.';
+      status.textContent = 'That\'s your partner\'s name. You\'re looking for your own.';
       return;
     }
     status.className = 'sp-status error';
-    status.textContent = 'That\'s not your name — keep asking.';
+    status.textContent = 'That\'s not your name. Keep asking.';
   }
 
   function armReveal(player, puzzle, button, status) {
@@ -357,7 +357,7 @@
           el('strong', { class: 'sp-name', text: puzzle.parent }),
           '".'
         ),
-        el('p', { class: 'sp-small sp-mt', text: 'The race is social — tell your partner how you did.' }),
+        el('p', { class: 'sp-small sp-mt', text: 'The race is social. Tell your partner how you did.' }),
         el('div', { class: 'sp-actions' },
           el('button', { class: 'sp-btn', type: 'button', onclick: startNewGame }, 'New game')
         )
