@@ -62,8 +62,20 @@
     return el('div', { class: 'sp-card' }, ...children);
   }
 
-  function poolLabel(pool) {
-    return pool === 'evergreen' ? 'Evergreen' : 'Trending';
+  function poolTag(pool) {
+    const evergreen = pool === 'evergreen';
+    const label = evergreen ? 'Evergreen' : 'Trending';
+    const explanation = evergreen
+      ? 'Evergreen: the parent article comes from the curated Vital Articles core list — stable, well-known topics.'
+      : 'Trending: the parent article comes from the filtered monthly pageviews top 1,000 — what people were reading that month.';
+
+    return el('span', {
+      class: 'sp-tag',
+      tabindex: '0',
+      'aria-label': explanation,
+      'data-tip': explanation,
+      text: label
+    });
   }
 
   function clearHintTimer() {
@@ -270,7 +282,7 @@
     const children = [
       el('p', { class: 'sp-kicker' },
         `You are Player ${player}`,
-        el('span', { class: 'sp-tag', text: poolLabel(puzzle.pool) })
+        poolTag(puzzle.pool)
       ),
       el('p', { class: 'sp-line' },
         'Your partner\'s name is "',
@@ -349,7 +361,7 @@
       card(
         el('p', { class: 'sp-kicker' },
           'Round revealed',
-          el('span', { class: 'sp-tag', text: poolLabel(puzzle.pool) })
+          poolTag(puzzle.pool)
         ),
         el('h2', { class: 'sp-heading', text: 'Your name was...' }),
         el('p', { class: 'sp-line' },
